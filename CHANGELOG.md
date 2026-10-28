@@ -1,5 +1,11 @@
 # Zmiany
 
+## 0.1.3
+
+- Nowa strona aplikacji z opisem funkcji.
+- Jednolita informacja o autorze (Adam Rędzikowski · redzikowski.com) i przycisk „Postaw kawę”.
+- Usunięte odnośniki do repozytorium z interfejsu.
+
 ## 0.1.2
 
 - Nowa ikona: sama czerwona słuchawka, bez białej karty pod nią – także na ekranie powitalnym i w wersji monochromatycznej.
