@@ -1,0 +1,142 @@
+package com.blacksingularities.opencall.ui.screens
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Message
+import androidx.compose.material.icons.rounded.Call
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.StarBorder
+import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.blacksingularities.opencall.data.CallLogRepo
+import com.blacksingularities.opencall.data.Contact
+import com.blacksingularities.opencall.data.PhoneText
+import com.blacksingularities.opencall.i18n.tr
+import com.blacksingularities.opencall.ui.AppViewModel
+import com.blacksingularities.opencall.ui.Avatar
+import com.blacksingularities.opencall.ui.Route
+import com.blacksingularities.opencall.ui.components.ChoiceDialog
+import com.blacksingularities.opencall.ui.components.EmptyState
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun FavoritesTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: () -> Unit) {
+    val starred = remember(vm.contacts) { vm.contacts.filter { it.starred && it.numbers.isNotEmpty() } }
+    // „Często”: kontakty, do których dzwoniono najczęściej w ostatnich 30 dniach (bez ulubionych).
+    val frequent = remember(vm.calls, vm.contacts, vm.settings.showFrequent) {
+        if (!vm.settings.showFrequent) {
+            emptyList()
+        } else {
+            CallLogRepo.frequent(vm.calls, System.currentTimeMillis() - 30L * 86_400_000L, 16)
+                .mapNotNull { vm.contactFor(it) }
+                .filter { !it.starred }
+                .distinctBy { it.id }
+                .take(8)
+        }
+    }
+    var menu by remember { mutableStateOf<Contact?>(null) }
+
+    Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
+        TabHeader(vm, tr("Ulubione"))
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(96.dp),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) { SetupCard(vm, onRequestRole, onRequestPermissions) }
+            if (!vm.hasContacts) {
+                item(span = { GridItemSpan(maxLineSpan) }) { NoPermission(tr("Ulubione wymagają dostępu do kontaktów."), onRequestPermissions) }
+                return@LazyVerticalGrid
+            }
+            if (starred.isEmpty() && vm.loaded) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    EmptyState(
+                        Icons.Rounded.StarBorder,
+                        tr("Brak ulubionych"),
+                        tr("Oznacz kontakt gwiazdką w jego szczegółach – pojawi się tutaj do szybkiego dzwonienia."),
+                    )
+                }
+            }
+            items(starred, key = { "s${it.id}" }) { c ->
+                FavoriteTile(c, onClick = { c.primaryNumber?.let { vm.call(it.number, c.name) } }, onLong = { menu = c })
+            }
+            if (frequent.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) { ListHeader(tr("Często"), Modifier.padding(top = 8.dp)) }
+                items(frequent, key = { "f${it.id}" }) { c ->
+                    FavoriteTile(c, onClick = { c.primaryNumber?.let { vm.call(it.number, c.name) } }, onLong = { menu = c })
+                }
+            }
+        }
+    }
+
+    menu?.let { c ->
+        ChoiceDialog(
+            c.name,
+            buildList {
+                c.numbers.forEach { add(Icons.Rounded.Call to tr("Zadzwoń: {0}", PhoneText.pretty(it.number))) }
+                add(Icons.AutoMirrored.Rounded.Message to tr("Wyślij SMS"))
+                add(Icons.Rounded.Info to tr("Szczegóły kontaktu"))
+                add(Icons.Rounded.StarOutline to if (c.starred) tr("Usuń z ulubionych") else tr("Dodaj do ulubionych"))
+            },
+            onDismiss = { menu = null },
+        ) { i ->
+            menu = null
+            val n = c.numbers.size
+            when {
+                i < n -> vm.call(c.numbers[i].number, c.name)
+                i == n -> c.primaryNumber?.let { vm.sms(it.number) }
+                i == n + 1 -> vm.push(Route.ContactInfo(c.id))
+                else -> vm.setStarred(c.id, !c.starred)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun FavoriteTile(c: Contact, onClick: () -> Unit, onLong: () -> Unit) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .combinedClickable(onClick = onClick, onLongClick = onLong)
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Avatar(c.name, c.photoUri, 72.dp)
+        Spacer(Modifier.height(8.dp))
+        Text(c.name, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center, lineHeight = 16.sp)
+    }
+}
