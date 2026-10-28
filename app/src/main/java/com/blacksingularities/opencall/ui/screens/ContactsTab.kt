@@ -59,29 +59,25 @@ import com.blacksingularities.opencall.ui.AppViewModel
 import com.blacksingularities.opencall.ui.Avatar
 import com.blacksingularities.opencall.ui.Format
 import com.blacksingularities.opencall.ui.Route
-import com.blacksingularities.opencall.ui.components.ChipRow
 import com.blacksingularities.opencall.ui.components.DarkDialog
 import com.blacksingularities.opencall.ui.components.EmptyState
 import com.blacksingularities.opencall.ui.components.PillButton
 import com.blacksingularities.opencall.ui.components.RoundIcon
-import com.blacksingularities.opencall.ui.components.TabChip
 import com.blacksingularities.opencall.ui.theme.Palette
 import kotlinx.coroutines.launch
 
 @Composable
 fun ContactsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: () -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
-    var onlyStarred by rememberSaveable { mutableStateOf(false) }
     var selection by remember { mutableStateOf<Set<Long>>(emptySet()) }
     var confirmDelete by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
-    val filtered = remember(vm.contacts, query, onlyStarred, vm.settings.onlyWithNumbers) {
+    val filtered = remember(vm.contacts, query, vm.settings.onlyWithNumbers) {
         val q = PhoneText.fold(query.trim())
         vm.contacts.filter { c ->
-            (!onlyStarred || c.starred) &&
-                (!vm.settings.onlyWithNumbers || c.numbers.isNotEmpty()) &&
+            (!vm.settings.onlyWithNumbers || c.numbers.isNotEmpty()) &&
                 (q.isEmpty() || c.searchName.contains(q) || c.numbers.any { PhoneText.numberMatches(it.number, q) })
         }
     }
@@ -121,12 +117,6 @@ fun ContactsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermission
         } else {
             SearchHeader(vm, query, { query = it }, tr("Szukaj wśród {0} kontaktów", vm.contacts.size)) {
                 RoundIcon(Icons.Rounded.PersonAdd, tr("Nowy kontakt"), enabled = vm.hasContacts) { vm.newContact() }
-            }
-        }
-        Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
-            ChipRow {
-                TabChip(Icons.Rounded.Contacts, tr("Wszystkie"), !onlyStarred) { onlyStarred = false }
-                TabChip(Icons.Rounded.Star, tr("Ulubione"), onlyStarred) { onlyStarred = true }
             }
         }
         if (!vm.hasContacts) {
