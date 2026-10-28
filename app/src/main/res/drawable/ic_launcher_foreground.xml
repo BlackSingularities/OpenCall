@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Biała, lekko błyszcząca karta z czerwoną słuchawką i falami dźwięku – w duchu ikon OpenDocument. -->
+<!-- Sama słuchawka w czerwonym gradiencie, bez karty ani tła – tło daje warstwa adaptive-icon. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
@@ -7,46 +7,12 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Cień karty -->
-    <path
-        android:fillColor="#33000000"
-        android:pathData="M42,31h28a12,12 0,0 1,12 12v28a12,12 0,0 1,-12 12h-28a12,12 0,0 1,-12 -12v-28a12,12 0,0 1,12 -12z" />
-
-    <!-- Karta -->
-    <path android:pathData="M41,28h26a13,13 0,0 1,13 13v26a13,13 0,0 1,-13 13h-26a13,13 0,0 1,-13 -13v-26a13,13 0,0 1,13 -13z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="80"
-                android:endY="80"
-                android:startX="28"
-                android:startY="28"
-                android:type="linear">
-                <item android:color="#FFFFFFFF" android:offset="0" />
-                <item android:color="#FFE6E6E6" android:offset="1" />
-            </gradient>
-        </aapt:attr>
-    </path>
-
-    <!-- Fale dźwięku -->
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M58,38a12,12 0,0 1,12 12"
-        android:strokeWidth="3.2"
-        android:strokeColor="#FFE53935"
-        android:strokeLineCap="round" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M58,44a6,6 0,0 1,6 6"
-        android:strokeWidth="3.2"
-        android:strokeColor="#FFE53935"
-        android:strokeLineCap="round" />
-
-    <!-- Słuchawka -->
+    <!-- Skala 2,6 i przesunięcie 22,8 ustawiają ikonę 24×24 pośrodku strefy bezpiecznej. -->
     <group
-        android:scaleX="1.55"
-        android:scaleY="1.55"
-        android:translateX="33"
-        android:translateY="36">
+        android:scaleX="2.6"
+        android:scaleY="2.6"
+        android:translateX="22.8"
+        android:translateY="22.8">
         <path android:pathData="M20.01,15.38c-1.23,0 -2.42,-0.2 -3.53,-0.56 -0.35,-0.12 -0.74,-0.03 -1.01,0.24l-1.57,1.97c-2.83,-1.35 -5.48,-3.9 -6.89,-6.83l1.95,-1.66c0.27,-0.28 0.35,-0.67 0.24,-1.02 -0.37,-1.11 -0.56,-2.3 -0.56,-3.53 0,-0.54 -0.45,-0.99 -0.99,-0.99H4.19C3.65,3 3,3.24 3,3.99 3,13.28 10.73,21 20.01,21c0.71,0 0.99,-0.63 0.99,-1.18v-3.45c0,-0.54 -0.45,-0.99 -0.99,-0.99z">
             <aapt:attr name="android:fillColor">
                 <gradient
@@ -55,8 +21,8 @@
                     android:startX="3"
                     android:startY="3"
                     android:type="linear">
-                    <item android:color="#FFFF5A52" android:offset="0" />
-                    <item android:color="#FFC62828" android:offset="1" />
+                    <item android:color="#FFFF6B61" android:offset="0" />
+                    <item android:color="#FFD32F2F" android:offset="1" />
                 </gradient>
             </aapt:attr>
         </path>

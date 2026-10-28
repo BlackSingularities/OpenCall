@@ -101,7 +101,12 @@ fun DialerTab(vm: AppViewModel) {
 
     Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
         Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = 12.dp, top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(if (vm.addingCall) tr("Dodaj połączenie") else tr("Klawiatura"), fontSize = 30.sp, fontWeight = FontWeight.Black, modifier = Modifier.weight(1f))
+            // Tytułu tu nie ma; zostaje tylko informacja o dodawaniu drugiego połączenia.
+            if (vm.addingCall) {
+                Text(tr("Dodaj połączenie"), fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            } else {
+                Spacer(Modifier.weight(1f))
+            }
             RoundIcon(Icons.Rounded.ContentPaste, tr("Wklej numer")) { vm.pasteNumber()?.let { vm.dialed = it } }
             Spacer(Modifier.width(6.dp))
             RoundIcon(Icons.Rounded.Settings, tr("Ustawienia")) { vm.push(Route.Settings) }

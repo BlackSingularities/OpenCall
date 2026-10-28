@@ -70,6 +70,7 @@ Liczba połączeń, łączny i średni czas rozmów, najdłuższa rozmowa, najcz
 - Pełna obsługa polskiego i angielskiego – automatycznie według języka systemu albo wybrany w ustawieniach (również dla numerów i dat).
 - Wibracja przycisków, wybór ekranu startowego, ukrywanie zakładki „Ulubione”, kolejność nazw (Imię Nazwisko / Nazwisko, Imię), ukrywanie kontaktów bez numeru.
 - Własna ciemna paleta (Material 3), ikona adaptacyjna i monochromatyczna (motyw ikon w Androidzie 13+).
+- Zakładki bez wielkich tytułów: w nagłówku „Ostatnich” i „Kontaktów” stoi pole wyszukiwania, więc listy zaczynają się wyżej.
 
 ### Aktualizacje
 Aplikacja sprawdza **GitHub Releases** przy uruchomieniu (najwyżej raz na 6 godzin), pokazuje opis wydania, pobiera APK z pokazanym postępem i instaluje je – bez sklepu i bez konta. Sprawdzanie można wyłączyć i uruchamiać ręcznie w ustawieniach.

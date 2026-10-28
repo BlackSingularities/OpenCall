@@ -1,5 +1,11 @@
 # Zmiany
 
+## 0.1.2
+
+- Nowa ikona: sama czerwona słuchawka, bez białej karty pod nią – także na ekranie powitalnym i w wersji monochromatycznej.
+- Żadna zakładka nie ma już wielkiego tytułu. „Kontakty” dostały w to miejsce pole wyszukiwania (obok dodawania kontaktu i ustawień), a „Ulubione” i „Klawiatura” – sam rząd przycisków. Listy zaczynają się wyżej.
+- Z ustawień zniknął odnośnik do repozytorium; numer wersji został w stopce.
+
 ## 0.1.1
 
 - Zakładka „Ostatnie” bez tytułu: pole wyszukiwania stoi teraz w nagłówku obok czyszczenia historii i ustawień, a filtry przeszły pod nie – lista zaczyna się wyżej.

@@ -119,13 +119,11 @@ fun ContactsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermission
                 RoundIcon(Icons.Rounded.Delete, tr("Usuń zaznaczone"), tint = Palette.Record) { confirmDelete = true }
             }
         } else {
-            TabHeader(vm, tr("Kontakty")) {
+            SearchHeader(vm, query, { query = it }, tr("Szukaj wśród {0} kontaktów", vm.contacts.size)) {
                 RoundIcon(Icons.Rounded.PersonAdd, tr("Nowy kontakt"), enabled = vm.hasContacts) { vm.newContact() }
             }
         }
         Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
-            SearchField(query, { query = it }, tr("Szukaj wśród {0} kontaktów", vm.contacts.size))
-            Spacer(Modifier.size(8.dp))
             ChipRow {
                 TabChip(Icons.Rounded.Contacts, tr("Wszystkie"), !onlyStarred) { onlyStarred = false }
                 TabChip(Icons.Rounded.Star, tr("Ulubione"), onlyStarred) { onlyStarred = true }

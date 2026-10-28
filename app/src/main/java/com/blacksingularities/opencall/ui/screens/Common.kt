@@ -41,12 +41,15 @@ import com.blacksingularities.opencall.ui.components.RoundIcon
 import com.blacksingularities.opencall.ui.theme.Palette
 import com.blacksingularities.opencall.ui.theme.reactive
 
-/** Nagłówek zakładki: duży tytuł, akcje i ustawienia (z plakietką, gdy jest aktualizacja). */
+/**
+ * Nagłówek zakładki bez tytułu: tylko akcje i ustawienia przy prawej krawędzi (z plakietką,
+ * gdy czeka aktualizacja). Nazwę zakładki widać na dolnym pasku, więc nie zajmuje tu miejsca.
+ */
 @Composable
-fun TabHeader(vm: AppViewModel, title: String, actions: @Composable RowScope.() -> Unit = {}) {
-    Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 12.dp, top = 10.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(title, fontSize = 30.sp, fontWeight = FontWeight.Black, color = Color.White, modifier = Modifier.weight(1f))
+fun TabHeader(vm: AppViewModel, actions: @Composable RowScope.() -> Unit = {}) {
+    Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 12.dp, top = 8.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+            Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 actions()
                 RoundIcon(Icons.Rounded.Settings, tr("Ustawienia"), badge = if (vm.updatePending) "1" else null) { vm.push(Route.Settings) }

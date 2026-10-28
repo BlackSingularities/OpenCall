@@ -1,7 +1,6 @@
 package com.blacksingularities.opencall.ui.screens
 
 import android.content.Intent
-import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.automirrored.rounded.MergeType
 import androidx.compose.material.icons.rounded.NotificationsActive
@@ -211,12 +209,9 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
             }
         }
 
-        Group(null) {
-            ActionRow(Icons.Rounded.Info, "OpenCall ${BuildConfig.VERSION_NAME}", tr("Otwarta aplikacja do połączeń i kontaktów · github.com/BlackSingularities/OpenCall")) {
-                vm.openIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/BlackSingularities/OpenCall")))
-            }
-        }
         Column(Modifier.padding(horizontal = 6.dp)) {
+            Text("OpenCall ${BuildConfig.VERSION_NAME}", color = Palette.TextDim, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(4.dp))
             Text(tr("Bez reklam, bez śledzenia, bez kont. Dane zostają w telefonie – aplikacja łączy się z internetem tylko po aktualizacje."), color = Palette.TextDim, fontSize = 11.sp, lineHeight = 15.sp)
             Spacer(Modifier.height(4.dp))
             Text("BlackSingularities", color = Palette.TextFaint, fontSize = 11.sp, fontWeight = FontWeight.Bold)

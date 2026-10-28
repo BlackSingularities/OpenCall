@@ -68,7 +68,7 @@ fun FavoritesTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissio
     var menu by remember { mutableStateOf<Contact?>(null) }
 
     Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
-        if (onBack != null) PageHeader(tr("Ulubione"), onBack) else TabHeader(vm, tr("Ulubione"))
+        if (onBack != null) PageHeader(tr("Ulubione"), onBack) else TabHeader(vm)
         LazyVerticalGrid(
             columns = GridCells.Adaptive(96.dp),
             modifier = Modifier.fillMaxSize(),

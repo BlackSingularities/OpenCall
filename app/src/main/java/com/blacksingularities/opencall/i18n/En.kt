@@ -193,8 +193,6 @@ internal val En: Map<String, String> = hashMapOf(
     "Ostatnie" to "Recents",
     "Ostatnie: {0}" to "Last call: {0}",
     "Ostatnio otwarta zakładka" to "Last open tab",
-    "Otwarta aplikacja do połączeń i kontaktów · github.com/BlackSingularities/OpenCall" to
-        "An open app for calls and contacts · github.com/BlackSingularities/OpenCall",
     "Otwiera kontakt" to "Opens the contact",
     "Otwórz listę ulubionych kontaktów" to "Open the list of favourite contacts",
     "Oznacz kontakt gwiazdką w jego szczegółach – pojawi się tutaj do szybkiego dzwonienia." to
