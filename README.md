@@ -6,7 +6,7 @@
 
 ## Pobieranie
 
-Najnowszy plik jest zawsze w **[Releases → Latest](../../releases/latest)**. Każdy merge do `main` buduje i publikuje nowe wydanie automatycznie, a aplikacja sama proponuje aktualizację.
+Najnowszy plik jest zawsze w **[Releases → Latest](../../releases/latest)**. Każdy wypchnięty tag `vX.Y.Z` buduje i publikuje nowe wydanie automatycznie, a aplikacja sama proponuje aktualizację.
 
 1. Pobierz `OpenCall-x.y.z.apk` na telefon.
 2. Otwórz plik i zezwól na instalację z tego źródła.

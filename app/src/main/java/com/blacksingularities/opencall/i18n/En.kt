@@ -334,6 +334,10 @@ internal val En: Map<String, String> = hashMapOf(
     "Wczoraj" to "Yesterday",
     "Wersja {0} pobrana" to "Version {0} downloaded",
     "Wersja {0}" to "Version {0}",
+    "O aplikacji" to "About",
+    "Pomysł i wykonanie" to "Idea and development",
+    "Postaw kawę" to "Buy me a coffee",
+    "Wesprzyj rozwój na buycoffee.to" to "Support development on buycoffee.to",
     "Wiadomości przy odrzucaniu połączenia" to "Messages for declining a call",
     "Wiadomość wyśle domyślna aplikacja SMS. Treści zmienisz w ustawieniach." to
         "Your default SMS app sends the message. You can change the texts in settings.",

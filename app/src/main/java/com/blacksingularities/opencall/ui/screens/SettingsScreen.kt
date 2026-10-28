@@ -20,6 +20,9 @@ import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.LocalCafe
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.automirrored.rounded.MergeType
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.automirrored.rounded.PhoneForwarded
@@ -209,12 +212,20 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
             }
         }
 
+        SectionHeader(Icons.Rounded.Info, tr("O aplikacji"))
+        Group(null) {
+            ActionRow(Icons.Rounded.Person, tr("Pomysł i wykonanie"), "Adam Rędzikowski · redzikowski.com") {
+                vm.openIntent(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://redzikowski.com")))
+            }
+            ActionRow(Icons.Rounded.LocalCafe, tr("Postaw kawę"), tr("Wesprzyj rozwój na buycoffee.to")) {
+                vm.openIntent(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://buycoffee.to/adamredzikowski")))
+            }
+        }
+
         Column(Modifier.padding(horizontal = 6.dp)) {
             Text("OpenCall ${BuildConfig.VERSION_NAME}", color = Palette.TextDim, fontSize = 12.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(4.dp))
             Text(tr("Bez reklam, bez śledzenia, bez kont. Dane zostają w telefonie – aplikacja łączy się z internetem tylko po aktualizacje."), color = Palette.TextDim, fontSize = 11.sp, lineHeight = 15.sp)
-            Spacer(Modifier.height(4.dp))
-            Text("BlackSingularities", color = Palette.TextFaint, fontSize = 11.sp, fontWeight = FontWeight.Bold)
         }
         Spacer(Modifier.height(16.dp))
     }
