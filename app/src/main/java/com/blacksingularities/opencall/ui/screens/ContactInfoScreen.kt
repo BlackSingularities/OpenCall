@@ -34,7 +34,6 @@ import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarBorder
-import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material.icons.rounded.Voicemail
 import androidx.compose.material.icons.rounded.Work
 import androidx.compose.material3.Icon
@@ -162,13 +161,11 @@ fun ContactInfoScreen(vm: AppViewModel, contactId: Long?, number: String?) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 BigAction(Icons.Rounded.Call, tr("Zadzwoń"), enabled = numbers.isNotEmpty()) { withNumber { vm.call(it, d?.name) } }
                 BigAction(Icons.AutoMirrored.Rounded.Message, tr("SMS"), enabled = numbers.isNotEmpty()) { withNumber { vm.sms(it) } }
-                BigAction(Icons.Rounded.Videocam, tr("WhatsApp"), enabled = numbers.isNotEmpty()) { withNumber { vm.whatsapp(it) } }
                 if (d != null && d.emails.isNotEmpty()) {
                     BigAction(Icons.Rounded.Email, tr("E-mail")) { vm.email(d.emails.first().value) }
-                } else {
-                    BigAction(Icons.Rounded.Share, tr("Udostępnij")) {
-                        if (d != null) vm.shareVCard(d.id) else vm.shareText(number ?: "")
-                    }
+                }
+                BigAction(Icons.Rounded.Share, tr("Udostępnij")) {
+                    if (d != null) vm.shareVCard(d.id) else vm.shareText(number ?: "")
                 }
             }
         }

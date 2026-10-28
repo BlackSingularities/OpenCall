@@ -78,7 +78,6 @@ private enum class RecentFilter { ALL, MISSED, INCOMING, OUTGOING, BLOCKED }
 fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: () -> Unit) {
     var filter by rememberSaveable { mutableStateOf(RecentFilter.ALL) }
     var query by rememberSaveable { mutableStateOf("") }
-    var searching by rememberSaveable { mutableStateOf(false) }
     var expanded by remember { mutableStateOf<String?>(null) }
     var menu by remember { mutableStateOf<CallGroup?>(null) }
     var confirmClear by remember { mutableStateOf(false) }
@@ -99,12 +98,10 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
     }
 
     Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
-        TabHeader(vm, tr("Ostatnie")) {
+        SearchHeader(vm, query, { query = it }, tr("Szukaj w historii")) {
             RoundIcon(Icons.Rounded.DeleteSweep, tr("Wyczyść historię"), enabled = vm.calls.isNotEmpty()) { confirmClear = true }
         }
         Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
-            SearchField(query, { query = it }, tr("Szukaj w historii"))
-            Spacer(Modifier.size(8.dp))
             ChipRow {
                 TabChip(null, tr("Wszystkie"), filter == RecentFilter.ALL) { filter = RecentFilter.ALL }
                 TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED) { filter = RecentFilter.MISSED }

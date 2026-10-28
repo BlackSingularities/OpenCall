@@ -99,6 +99,7 @@ fun AppRoot(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: (
                         Route.SpeedDial -> SpeedDialScreen(vm)
                         Route.QuickReplies -> QuickRepliesScreen(vm)
                         Route.Backup -> BackupScreen(vm)
+                        Route.Favorites -> FavoritesTab(vm, onRequestRole, onRequestPermissions, onBack = { vm.pop() })
                     }
                 }
             }
@@ -169,7 +170,7 @@ private fun BottomBar(vm: AppViewModel) {
             .padding(horizontal = 8.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        TabItem(Icons.Rounded.Star, tr("Ulubione"), vm.tab == 0) { vm.selectTab(0) }
+        if (vm.settings.showFavoritesTab) TabItem(Icons.Rounded.Star, tr("Ulubione"), vm.tab == 0) { vm.selectTab(0) }
         TabItem(Icons.Rounded.History, tr("Ostatnie"), vm.tab == 1, badge = vm.unseenMissed) { vm.selectTab(1) }
         TabItem(Icons.Rounded.Contacts, tr("Kontakty"), vm.tab == 2) { vm.selectTab(2) }
         TabItem(Icons.Rounded.Dialpad, tr("Klawiatura"), vm.tab == 3) { vm.selectTab(3) }

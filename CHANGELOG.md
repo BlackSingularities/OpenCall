@@ -1,5 +1,11 @@
 # Zmiany
 
+## 0.1.1
+
+- Zakładka „Ostatnie” bez tytułu: pole wyszukiwania stoi teraz w nagłówku obok czyszczenia historii i ustawień, a filtry przeszły pod nie – lista zaczyna się wyżej.
+- Zakładkę „Ulubione” można całkowicie usunąć z dolnego paska (Ustawienia → Historia i kontakty). Lista ulubionych jest wtedy dostępna z ustawień, a „Ekran startowy” przestaje ją proponować.
+- Usunięty przycisk WhatsApp ze szczegółów kontaktu – zostają połączenie, SMS, e-mail i udostępnianie.
+
 ## 0.1.0
 
 Pierwsze wydanie OpenCall – otwartej aplikacji do połączeń i kontaktów.

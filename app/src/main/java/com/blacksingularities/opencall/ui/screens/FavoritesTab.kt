@@ -47,10 +47,11 @@ import com.blacksingularities.opencall.ui.Avatar
 import com.blacksingularities.opencall.ui.Route
 import com.blacksingularities.opencall.ui.components.ChoiceDialog
 import com.blacksingularities.opencall.ui.components.EmptyState
+import com.blacksingularities.opencall.ui.components.PageHeader
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FavoritesTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: () -> Unit) {
+fun FavoritesTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions: () -> Unit, onBack: (() -> Unit)? = null) {
     val starred = remember(vm.contacts) { vm.contacts.filter { it.starred && it.numbers.isNotEmpty() } }
     // „Często”: kontakty, do których dzwoniono najczęściej w ostatnich 30 dniach (bez ulubionych).
     val frequent = remember(vm.calls, vm.contacts, vm.settings.showFrequent) {
@@ -67,7 +68,7 @@ fun FavoritesTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissio
     var menu by remember { mutableStateOf<Contact?>(null) }
 
     Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
-        TabHeader(vm, tr("Ulubione"))
+        if (onBack != null) PageHeader(tr("Ulubione"), onBack) else TabHeader(vm, tr("Ulubione"))
         LazyVerticalGrid(
             columns = GridCells.Adaptive(96.dp),
             modifier = Modifier.fillMaxSize(),

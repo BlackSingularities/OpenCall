@@ -57,6 +57,8 @@ sealed interface Route {
     data object SpeedDial : Route
     data object QuickReplies : Route
     data object Backup : Route
+    /** Ulubione jako osobny ekran, gdy zakładka na dolnym pasku jest wyłączona. */
+    data object Favorites : Route
 }
 
 /** Połączenie czekające na wybór karty SIM albo potwierdzenie. */
@@ -79,7 +81,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             StartTab.CONTACTS -> 2
             StartTab.KEYPAD -> 3
             StartTab.LAST -> settings.lastTab.coerceIn(0, 3)
-        },
+        }.let { if (it == 0 && !settings.showFavoritesTab) 1 else it },
     )
         private set
 
@@ -151,6 +153,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         store.save(settings)
         if (old.language != settings.language) I18n.apply(settings.language)
         if (old.nameOrder != settings.nameOrder || old.groupCalls != settings.groupCalls) reload()
+        // Zakładka właśnie zniknęła z paska – nie zostawiamy jej otwartej.
+        if (!settings.showFavoritesTab && tab == 0) selectTab(1)
     }
 
     fun selectTab(i: Int) {
@@ -316,13 +320,6 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun map(address: String) = openIntent(Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address))))
 
     fun web(url: String) = openIntent(Intent(Intent.ACTION_VIEW, Uri.parse(if (url.contains("://")) url else "https://$url")))
-
-    /** Wideorozmowa przez WhatsApp (jeśli zainstalowany) – otwiera czat z numerem. */
-    fun whatsapp(number: String) {
-        val digits = PhoneText.digits(number).removePrefix("+")
-        val full = if (digits.length == 9) "48$digits" else digits
-        openIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/$full")))
-    }
 
     fun copy(text: String) {
         ctx.getSystemService(ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText("number", text))

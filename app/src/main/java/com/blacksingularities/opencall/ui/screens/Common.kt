@@ -56,6 +56,28 @@ fun TabHeader(vm: AppViewModel, title: String, actions: @Composable RowScope.() 
     }
 }
 
+/**
+ * Nagłówek zakładki bez tytułu: pole wyszukiwania zajmuje całą szerokość obok akcji i ustawień.
+ * Oszczędza wysokość ekranu tam, gdzie nazwa zakładki i tak jest widoczna na dolnym pasku.
+ */
+@Composable
+fun SearchHeader(
+    vm: AppViewModel,
+    query: String,
+    onQuery: (String) -> Unit,
+    hint: String,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    Column(Modifier.fillMaxWidth().padding(start = 14.dp, end = 12.dp, top = 8.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            SearchField(query, onQuery, hint, Modifier.weight(1f))
+            actions()
+            RoundIcon(Icons.Rounded.Settings, tr("Ustawienia"), badge = if (vm.updatePending) "1" else null) { vm.push(Route.Settings) }
+        }
+        UpdateBanner(vm, Modifier.padding(top = 10.dp, end = 6.dp))
+    }
+}
+
 /** Pole wyszukiwania w kształcie pigułki. */
 @Composable
 fun SearchField(value: String, onChange: (String) -> Unit, hint: String, modifier: Modifier = Modifier) {

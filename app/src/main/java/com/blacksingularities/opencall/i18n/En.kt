@@ -196,6 +196,7 @@ internal val En: Map<String, String> = hashMapOf(
     "Otwarta aplikacja do połączeń i kontaktów · github.com/BlackSingularities/OpenCall" to
         "An open app for calls and contacts · github.com/BlackSingularities/OpenCall",
     "Otwiera kontakt" to "Opens the contact",
+    "Otwórz listę ulubionych kontaktów" to "Open the list of favourite contacts",
     "Oznacz kontakt gwiazdką w jego szczegółach – pojawi się tutaj do szybkiego dzwonienia." to
         "Star a contact in its details and it shows up here for quick dialling.",
     "Pager" to "Pager",
@@ -208,6 +209,7 @@ internal val En: Map<String, String> = hashMapOf(
     "Pobierze się i zainstaluje automatycznie" to "Downloads and installs automatically",
     "Poczta głosowa" to "Voicemail",
     "Pokazuj kartę SIM" to "Show SIM card",
+    "Pokazuj ulubione na dolnym pasku" to "Show favourites on the bottom bar",
     "Pokaż na mapie" to "Show on map",
     "Pomija kontakty, które już masz" to "Skips contacts you already have",
     "Pora dnia" to "Time of day",
@@ -334,7 +336,6 @@ internal val En: Map<String, String> = hashMapOf(
     "Wczoraj" to "Yesterday",
     "Wersja {0} pobrana" to "Version {0} downloaded",
     "Wersja {0}" to "Version {0}",
-    "WhatsApp" to "WhatsApp",
     "Wiadomości przy odrzucaniu połączenia" to "Messages for declining a call",
     "Wiadomość wyśle domyślna aplikacja SMS. Treści zmienisz w ustawieniach." to
         "Your default SMS app sends the message. You can change the texts in settings.",
@@ -393,6 +394,7 @@ internal val En: Map<String, String> = hashMapOf(
     "Zainstaluj wersję {0}" to "Install version {0}",
     "Zainstaluj" to "Install",
     "Zajęte" to "Busy",
+    "Zakładka „Ulubione”" to "“Favourites” tab",
     "Zakończ i odbierz" to "End and answer",
     "Zamień" to "Swap",
     "Zamknij" to "Close",

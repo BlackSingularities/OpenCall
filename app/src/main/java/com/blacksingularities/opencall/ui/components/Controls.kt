@@ -130,6 +130,17 @@ fun Page(
     }
 }
 
+/** Nagłówek ekranu podrzędnego bez ramki [Page] – dla treści z własnym przewijaniem. */
+@Composable
+fun PageHeader(title: String, onBack: () -> Unit, actions: @Composable RowScope.() -> Unit = {}) {
+    Row(Modifier.padding(start = 8.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        GlassIconButton(Icons.AutoMirrored.Rounded.ArrowBack, tr("Wstecz"), size = 40.dp, onClick = onBack)
+        Spacer(Modifier.width(12.dp))
+        Text(title, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) { actions() }
+    }
+}
+
 /** Grupa wierszy na lekko jaśniejszym tle, z opcjonalnym nagłówkiem. */
 @Composable
 fun Group(title: String?, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {

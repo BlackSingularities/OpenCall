@@ -45,7 +45,7 @@ Aby OpenCall obsługiwał ekran rozmowy, odbieranie, blokowanie i powiadomienia 
 
 ### Kontakty
 - Lista z indeksem, wyszukiwaniem (nazwa, numer, T9) i sekcją **„Często”** – najczęściej wybierani rozmówcy.
-- Ulubione z szybkim dzwonieniem i SMS-em.
+- Ulubione z szybkim dzwonieniem i SMS-em – zakładkę można całkowicie usunąć z dolnego paska i otwierać listę z ustawień.
 - **Edytor kontaktu**: imię, drugie imię, nazwisko, tytuł, przyrostek, pseudonim, firma, stanowisko, wiele numerów i e-maili z rodzajami, adresy, strona WWW, urodziny, notatka, zdjęcie, wybór konta zapisu.
 - **Dzwonek na kontakt**, blokowanie osoby, udostępnianie jako vCard, pokazanie adresu na mapie.
 - **Duplikaty** – wyszukiwanie kontaktów o tym samym numerze lub nazwie i scalanie ich (bez usuwania danych).
@@ -68,7 +68,7 @@ Liczba połączeń, łączny i średni czas rozmów, najdłuższa rozmowa, najcz
 ### Interfejs
 - Styl „glass” jak w pozostałych aplikacjach z tej rodziny: ciemne przezierne panele, miękkie cienie, płynne przejścia między ekranami.
 - Pełna obsługa polskiego i angielskiego – automatycznie według języka systemu albo wybrany w ustawieniach (również dla numerów i dat).
-- Wibracja przycisków, wybór ekranu startowego, kolejność nazw (Imię Nazwisko / Nazwisko, Imię), ukrywanie kontaktów bez numeru.
+- Wibracja przycisków, wybór ekranu startowego, ukrywanie zakładki „Ulubione”, kolejność nazw (Imię Nazwisko / Nazwisko, Imię), ukrywanie kontaktów bez numeru.
 - Własna ciemna paleta (Material 3), ikona adaptacyjna i monochromatyczna (motyw ikon w Androidzie 13+).
 
 ### Aktualizacje

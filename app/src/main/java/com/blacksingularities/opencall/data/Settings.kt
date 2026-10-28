@@ -33,6 +33,8 @@ data class AppSettings(
     val nameOrder: NameOrder = NameOrder.FIRST_LAST,
     val onlyWithNumbers: Boolean = false,
     val showFrequent: Boolean = true,
+    /** Zakładka „Ulubione” na dolnym pasku; wyłączona – aplikacja startuje od „Ostatnich”. */
+    val showFavoritesTab: Boolean = true,
     // W trakcie rozmowy
     val proximity: Boolean = true,
     val vibrateOnConnect: Boolean = true,
@@ -92,6 +94,7 @@ class SettingsStore(context: Context) {
             put("nameOrder", s.nameOrder.name)
             put("onlyWithNumbers", s.onlyWithNumbers)
             put("showFrequent", s.showFrequent)
+            put("showFavoritesTab", s.showFavoritesTab)
             put("proximity", s.proximity)
             put("vibrateOnConnect", s.vibrateOnConnect)
             put("vibrateOnEnd", s.vibrateOnEnd)
@@ -138,6 +141,7 @@ class SettingsStore(context: Context) {
                 nameOrder = e("nameOrder", d.nameOrder),
                 onlyWithNumbers = b("onlyWithNumbers", d.onlyWithNumbers),
                 showFrequent = b("showFrequent", d.showFrequent),
+                showFavoritesTab = b("showFavoritesTab", d.showFavoritesTab),
                 proximity = b("proximity", d.proximity),
                 vibrateOnConnect = b("vibrateOnConnect", d.vibrateOnConnect),
                 vibrateOnEnd = b("vibrateOnEnd", d.vibrateOnEnd),

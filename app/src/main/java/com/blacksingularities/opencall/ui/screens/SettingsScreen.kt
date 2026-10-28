@@ -33,6 +33,7 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.SimCard
 import androidx.compose.material.icons.rounded.Sms
 import androidx.compose.material.icons.rounded.Speed
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.Swipe
 import androidx.compose.material.icons.rounded.SystemUpdate
 import androidx.compose.material.icons.rounded.TouchApp
@@ -141,7 +142,14 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
                 short = { if (it == NameOrder.FIRST_LAST) tr("Imię") else tr("Nazwisko") },
             ) { v -> set { it.copy(nameOrder = v) } }
             SwitchRow(Icons.Rounded.Contacts, tr("Tylko z numerem"), tr("Ukryj kontakty bez numeru telefonu"), s.onlyWithNumbers) { v -> set { it.copy(onlyWithNumbers = v) } }
-            SwitchRow(Icons.Rounded.Favorite, tr("Sekcja „Często”"), tr("Najczęstsi rozmówcy pod ulubionymi"), s.showFrequent) { v -> set { it.copy(showFrequent = v) } }
+            SwitchRow(Icons.Rounded.Star, tr("Zakładka „Ulubione”"), tr("Pokazuj ulubione na dolnym pasku"), s.showFavoritesTab) { v ->
+                set { it.copy(showFavoritesTab = v, startTab = if (!v && it.startTab == StartTab.FAVORITES) StartTab.RECENTS else it.startTab) }
+            }
+            if (s.showFavoritesTab) {
+                SwitchRow(Icons.Rounded.Favorite, tr("Sekcja „Często”"), tr("Najczęstsi rozmówcy pod ulubionymi"), s.showFrequent) { v -> set { it.copy(showFrequent = v) } }
+            } else {
+                ActionRow(Icons.Rounded.Star, tr("Ulubione"), tr("Otwórz listę ulubionych kontaktów")) { vm.push(Route.Favorites) }
+            }
         }
 
         SectionHeader(Icons.Rounded.Block, tr("Blokowanie i narzędzia"))
@@ -227,9 +235,10 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
         }
     }
     if (startPicker) {
-        ChoiceDialog(tr("Ekran startowy"), StartTab.entries.map { Icons.Rounded.Home to startLabel(it) }, onDismiss = { startPicker = false }) { i ->
+        val tabs = StartTab.entries.filter { s.showFavoritesTab || it != StartTab.FAVORITES }
+        ChoiceDialog(tr("Ekran startowy"), tabs.map { Icons.Rounded.Home to startLabel(it) }, onDismiss = { startPicker = false }) { i ->
             startPicker = false
-            set { it.copy(startTab = StartTab.entries[i]) }
+            set { it.copy(startTab = tabs[i]) }
         }
     }
 }
