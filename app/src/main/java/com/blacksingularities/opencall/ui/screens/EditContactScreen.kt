@@ -1,6 +1,8 @@
 package com.blacksingularities.opencall.ui.screens
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,6 +39,7 @@ import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,10 +68,13 @@ import com.blacksingularities.opencall.ui.components.DarkDialog
 import com.blacksingularities.opencall.ui.components.DarkField
 import com.blacksingularities.opencall.ui.components.Group
 import com.blacksingularities.opencall.ui.components.Page
+import com.blacksingularities.opencall.ui.components.PhotoCropper
 import com.blacksingularities.opencall.ui.components.PillButton
 import com.blacksingularities.opencall.ui.components.RoundIcon
 import com.blacksingularities.opencall.ui.theme.Palette
 import com.blacksingularities.opencall.ui.theme.reactive
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** Formularz kontaktu: nazwa (z rozwinięciem na człony), numery, e-maile, adresy, firma, urodziny, notatka, zdjęcie. */
 @Composable
@@ -80,10 +86,14 @@ fun EditContactScreen(vm: AppViewModel, initial: ContactDraft) {
     var pickAccount by remember { mutableStateOf(false) }
     var discard by remember { mutableStateOf(false) }
     val accounts = remember { runCatching { vm.contactsRepo.accounts() }.getOrDefault(emptyList()) }
-    val photoPicker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            vm.contactsRepo.preparePhoto(uri)?.let { d = d.copy(photo = it, photoChanged = true) }
-        }
+    var pickedUri by remember { mutableStateOf<Uri?>(null) }
+    var cropSource by remember { mutableStateOf<Bitmap?>(null) }
+    val photoPicker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> pickedUri = uri }
+    LaunchedEffect(pickedUri) {
+        val uri = pickedUri ?: return@LaunchedEffect
+        cropSource = withContext(Dispatchers.IO) { vm.contactsRepo.loadPhotoForCrop(uri) }
+        if (cropSource == null) vm.toast(tr("Nie udało się wczytać zdjęcia"))
+        pickedUri = null
     }
     val isNew = d.id == null
     val changed = d != initial
@@ -100,6 +110,13 @@ fun EditContactScreen(vm: AppViewModel, initial: ContactDraft) {
     }
 
     androidx.activity.compose.BackHandler(enabled = changed) { discard = true }
+
+    cropSource?.let { src ->
+        PhotoCropper(src, onCancel = { cropSource = null }) { bmp, left, top, side ->
+            vm.contactsRepo.cropPhoto(bmp, left, top, side)?.let { d = d.copy(photo = it, photoChanged = true) }
+            cropSource = null
+        }
+    }
 
     Page(
         if (isNew) tr("Nowy kontakt") else tr("Edytuj kontakt"),

@@ -1,5 +1,10 @@
 # Zmiany
 
+## W przygotowaniu
+
+- Kadrowanie zdjęcia kontaktu: przesuwanie, przybliżanie dwoma palcami, dwuklik i obrót o 90°.
+- Kontakty jako lista albo kafelki (4, 3 lub 2 w rzędzie) – zmiana płynnym szczypaniem dwoma palcami; wybrany układ jest zapamiętywany.
+
 ## 0.1.3
 
 - Nowa strona aplikacji z opisem funkcji.

@@ -33,6 +33,8 @@ data class AppSettings(
     val nameOrder: NameOrder = NameOrder.FIRST_LAST,
     val onlyWithNumbers: Boolean = false,
     val showFrequent: Boolean = true,
+    /** Układ listy kontaktów: 1 = lista, 2–4 = kafelki (zmieniane szczypaniem). */
+    val contactColumns: Int = 1,
     /** Zakładka „Ulubione” na dolnym pasku; wyłączona – aplikacja startuje od „Ostatnich”. */
     val showFavoritesTab: Boolean = true,
     // W trakcie rozmowy
@@ -94,6 +96,7 @@ class SettingsStore(context: Context) {
             put("nameOrder", s.nameOrder.name)
             put("onlyWithNumbers", s.onlyWithNumbers)
             put("showFrequent", s.showFrequent)
+            put("contactColumns", s.contactColumns)
             put("showFavoritesTab", s.showFavoritesTab)
             put("proximity", s.proximity)
             put("vibrateOnConnect", s.vibrateOnConnect)
@@ -141,6 +144,7 @@ class SettingsStore(context: Context) {
                 nameOrder = e("nameOrder", d.nameOrder),
                 onlyWithNumbers = b("onlyWithNumbers", d.onlyWithNumbers),
                 showFrequent = b("showFrequent", d.showFrequent),
+                contactColumns = o.optInt("contactColumns", d.contactColumns).coerceIn(1, 4),
                 showFavoritesTab = b("showFavoritesTab", d.showFavoritesTab),
                 proximity = b("proximity", d.proximity),
                 vibrateOnConnect = b("vibrateOnConnect", d.vibrateOnConnect),

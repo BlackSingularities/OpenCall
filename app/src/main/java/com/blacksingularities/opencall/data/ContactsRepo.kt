@@ -6,6 +6,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Email
@@ -345,17 +347,34 @@ class ContactsRepo(private val context: Context) {
     }
 
     /** Zdjęcie z galerii – przeskalowane do 720 px i zapisane jako JPEG (limit rozmiaru Data). */
-    fun preparePhoto(uri: Uri): ByteArray? = runCatching {
+    /** Wczytuje zdjęcie do kadrowania: zmniejszone do ~2048 px i obrócone zgodnie z EXIF. */
+    fun loadPhotoForCrop(uri: Uri): Bitmap? = runCatching {
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         cr.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
         var sample = 1
-        while (bounds.outWidth / (sample * 2) >= 720 && bounds.outHeight / (sample * 2) >= 720) sample *= 2
+        while (bounds.outWidth / (sample * 2) >= 2048 || bounds.outHeight / (sample * 2) >= 2048) sample *= 2
         val bmp = cr.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = sample }) } ?: return null
-        val side = minOf(bmp.width, bmp.height)
-        val square = Bitmap.createBitmap(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side)
-        val scaled = if (side > 720) Bitmap.createScaledBitmap(square, 720, 720, true) else square
+        val rotation = runCatching {
+            cr.openInputStream(uri)?.use { when (ExifInterface(it).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> 90
+                    ExifInterface.ORIENTATION_ROTATE_180 -> 180
+                    ExifInterface.ORIENTATION_ROTATE_270 -> 270
+                    else -> 0
+                }
+            } ?: 0
+        }.getOrDefault(0)
+        if (rotation == 0) bmp else Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, Matrix().apply { postRotate(rotation.toFloat()) }, true)
+    }.getOrNull()
+
+    /** Wycina kwadrat (współrzędne w pikselach [bmp]) i zapisuje jako JPEG do 720×720. */
+    fun cropPhoto(bmp: Bitmap, left: Int, top: Int, side: Int): ByteArray? = runCatching {
+        val s = side.coerceIn(1, minOf(bmp.width, bmp.height))
+        val x = left.coerceIn(0, bmp.width - s)
+        val y = top.coerceIn(0, bmp.height - s)
+        val square = Bitmap.createBitmap(bmp, x, y, s, s)
+        val scaled = if (s > 720) Bitmap.createScaledBitmap(square, 720, 720, true) else square
         ByteArrayOutputStream().use { out ->
-            scaled.compress(Bitmap.CompressFormat.JPEG, 88, out)
+            scaled.compress(Bitmap.CompressFormat.JPEG, 90, out)
             out.toByteArray()
         }
     }.getOrNull()
