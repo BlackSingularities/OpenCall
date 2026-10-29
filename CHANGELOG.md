@@ -1,5 +1,10 @@
 # Zmiany
 
+## 0.1.6
+
+- Dopasowane kolorystycznie tła ikon aplikacji i spójne zasoby graficzne.
+- Nowa ikona aplikacji, warianty systemowe i odświeżona grafika na stronie projektu.
+
 ## W przygotowaniu
 
 - Kadrowanie zdjęcia kontaktu: przesuwanie, przybliżanie dwoma palcami, dwuklik i obrót o 90°.
