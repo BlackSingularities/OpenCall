@@ -1,5 +1,7 @@
 # OpenCall
 
+<img src="artwork/app-icon.png" alt="OpenCall" width="128" />
+
 **Otwarta aplikacja do połączeń i kontaktów dla Androida** – pełny ekran rozmowy, klawiatura z wyszukiwaniem T9, historia połączeń, kontakty z edytorem i vCard, blokowanie numerów, konferencje i statystyki. Bez reklam, bez śledzenia, bez kont.
 
 [![Build & Release](../../actions/workflows/android.yml/badge.svg)](../../actions/workflows/android.yml)
