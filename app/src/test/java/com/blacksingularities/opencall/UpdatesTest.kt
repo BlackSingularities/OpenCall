@@ -35,6 +35,20 @@ class UpdatesTest {
     }
 
     @Test
+    fun skipsWatchApkAndPicksPhoneOne() {
+        val json = """
+            {
+              "tag_name": "v0.3.0",
+              "assets": [
+                {"name": "OpenDial-Watch-0.3.0.apk", "browser_download_url": "https://example.com/watch.apk", "size": 1},
+                {"name": "OpenDial-0.3.0.apk", "browser_download_url": "https://example.com/phone.apk", "size": 2}
+              ]
+            }
+        """.trimIndent()
+        assertEquals("https://example.com/phone.apk", parseRelease(json).assetUrl)
+    }
+
+    @Test
     fun releaseWithoutApkFails() {
         val json = """{"tag_name":"v0.2.0","assets":[{"name":"notes.txt","browser_download_url":"u","size":1}]}"""
         assertThrows(IllegalStateException::class.java) { parseRelease(json) }

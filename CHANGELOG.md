@@ -1,5 +1,12 @@
 # Zmiany
 
+## Niewydane
+
+- **Zegarek Wear OS.** Osobna aplikacja na zegarek: ekran połączenia przychodzącego (odbierz, odrzuć, wycisz dzwonek, odrzuć SMS-em), ekran rozmowy z licznikiem, mikrofonem, głośnikiem, zawieszeniem, klawiaturą DTMF oraz zamianą i scalaniem przy dwóch rozmowach, a poza rozmową lista ulubionych i ostatnich numerów do dzwonienia z nadgarstka.
+- Zegarek sam budzi ekran powiadomieniem o dzwonieniu, nawet gdy aplikacja na nim nie jest otwarta; powiadomienie telefonu nie jest wtedy mostkowane, żeby się nie dublowało.
+- Nowy przełącznik „Sterowanie z zegarka” w ustawieniach rozmowy; bez sparowanego zegarka z OpenDial cała ścieżka jest nieaktywna.
+- Wydania zawierają drugi plik `OpenDial-Watch-x.y.z.apk`; aktualizacje telefonu dalej pobierają tylko swój APK.
+
 ## 0.2.0
 
 - **Nowa nazwa: OpenDial.** Repozytorium przeniesione na BlackSingularities/OpenDial; zainstalowana aplikacja aktualizuje się dalej bez reinstalacji.

@@ -122,7 +122,10 @@ object CallManager {
 
     private fun changed() {
         _tick.value = _tick.value + 1
-        appContext?.let { CallNotifications.update(it) }
+        appContext?.let {
+            CallNotifications.update(it)
+            com.blacksingularities.opencall.wear.WearBridge.publishCall(it)
+        }
     }
 
     private fun resolveCaller(context: Context, number: String) {

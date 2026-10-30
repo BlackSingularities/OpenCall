@@ -53,6 +53,8 @@ data class AppSettings(
     // Szybkie wybieranie: cyfra 2–9 → numer
     val speedDial: Map<Int, String> = emptyMap(),
     val quickReplies: List<String> = DEFAULT_REPLIES,
+    /** Sterowanie rozmowami z zegarka Wear OS (gdy jest sparowany i ma OpenDial). */
+    val wearControl: Boolean = true,
     val defaultSim: String? = null,
     val onboardingDone: Boolean = false,
 ) {
@@ -111,6 +113,7 @@ class SettingsStore(context: Context) {
             put("notifyBlocked", s.notifyBlocked)
             put("speedDial", JSONObject().apply { s.speedDial.forEach { (k, v) -> put(k.toString(), v) } })
             put("quickReplies", JSONArray(s.quickReplies))
+            put("wearControl", s.wearControl)
             put("defaultSim", s.defaultSim ?: "")
             put("onboardingDone", s.onboardingDone)
         }
@@ -159,6 +162,7 @@ class SettingsStore(context: Context) {
                 notifyBlocked = b("notifyBlocked", d.notifyBlocked),
                 speedDial = speed,
                 quickReplies = list("quickReplies", d.quickReplies).ifEmpty { d.quickReplies },
+                wearControl = b("wearControl", d.wearControl),
                 defaultSim = o.optString("defaultSim", "").ifBlank { null },
                 onboardingDone = b("onboardingDone", d.onboardingDone),
             )
