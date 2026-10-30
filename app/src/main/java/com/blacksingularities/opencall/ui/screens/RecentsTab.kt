@@ -2,6 +2,11 @@ package com.blacksingularities.opencall.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -184,8 +189,12 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
         }
         AnimatedVisibility(
             visible = vm.keypadOpen,
-            enter = slideInVertically { it } + fadeIn(),
-            exit = slideOutVertically { it } + fadeOut(),
+            // Wysokość zmienia się płynnie razem z wysuwaniem, więc lista nad klawiaturą rośnie
+            // na bieżąco i nie zostaje pusta dziura, która dopiero potem się wypełnia.
+            enter = expandVertically(spring(stiffness = Spring.StiffnessMediumLow), expandFrom = Alignment.Top) +
+                slideInVertically(spring(stiffness = Spring.StiffnessMediumLow)) { it / 2 } + fadeIn(tween(180)),
+            exit = shrinkVertically(spring(stiffness = Spring.StiffnessMediumLow), shrinkTowards = Alignment.Top) +
+                slideOutVertically(spring(stiffness = Spring.StiffnessMediumLow)) { it / 2 } + fadeOut(tween(150)),
         ) { DialerPanel(vm, onCollapse = { vm.keypadOpen = false }) }
     }
 
