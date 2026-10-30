@@ -1,6 +1,6 @@
 # Zmiany
 
-## Niewydane
+## 0.3.0
 
 - **Zegarek Wear OS.** Osobna aplikacja na zegarek: ekran połączenia przychodzącego (odbierz, odrzuć, wycisz dzwonek, odrzuć SMS-em), ekran rozmowy z licznikiem, mikrofonem, głośnikiem, zawieszeniem, klawiaturą DTMF oraz zamianą i scalaniem przy dwóch rozmowach, a poza rozmową lista ulubionych i ostatnich numerów do dzwonienia z nadgarstka.
 - Zegarek sam budzi ekran powiadomieniem o dzwonieniu, nawet gdy aplikacja na nim nie jest otwarta; powiadomienie telefonu nie jest wtedy mostkowane, żeby się nie dublowało.
