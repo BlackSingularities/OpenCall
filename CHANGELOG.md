@@ -1,6 +1,6 @@
 # Zmiany
 
-## W przygotowaniu
+## 0.2.0
 
 - **Nowa nazwa: OpenDial.** Repozytorium przeniesione na BlackSingularities/OpenDial; zainstalowana aplikacja aktualizuje się dalej bez reinstalacji.
 - Historia połączeń i klawiatura w jednym widoku „Telefon”, jak w Samsungu czy Huaweiu: klawiatura wysuwa się nad listą, przewinięcie historii ją zwija, a wpisane cyfry od razu pokazują pasujące kontakty (z podświetleniem dopasowania). Dolny pasek ma już tylko trzy zakładki.
