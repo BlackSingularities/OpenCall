@@ -187,6 +187,13 @@ object CallManager {
         if (message != null) call.reject(true, message) else call.reject(false, null)
     }
 
+    /** Wycisza dzwonek bez odrzucania – rozmówca dalej słyszy sygnał (działa jako domyślny telefon). */
+    @android.annotation.SuppressLint("MissingPermission")
+    fun silenceRinger() {
+        val ctx = appContext ?: return
+        runCatching { ctx.getSystemService(android.telecom.TelecomManager::class.java)?.silenceRinger() }
+    }
+
     fun hangup(call: Call) {
         if (call.details.state == Call.STATE_RINGING) call.reject(false, null) else call.disconnect()
     }

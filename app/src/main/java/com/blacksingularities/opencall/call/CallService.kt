@@ -6,7 +6,7 @@ import android.telecom.CallAudioState
 import android.telecom.InCallService
 
 /**
- * Usługa wiązana przez Telecom, gdy OpenCall jest domyślną aplikacją telefonu: przekazuje
+ * Usługa wiązana przez Telecom, gdy OpenDial jest domyślną aplikacją telefonu: przekazuje
  * połączenia do [CallManager] i otwiera ekran rozmowy (przy dzwonieniu – przez powiadomienie
  * pełnoekranowe, żeby działało też przy zablokowanym ekranie).
  */

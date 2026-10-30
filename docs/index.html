@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenCall — Telefon i kontakty bez reklam</title>
+<title>OpenDial — Telefon i kontakty bez reklam</title>
 <meta name="description" content="Pełny ekran rozmowy, klawiatura z wyszukiwaniem T9, historia połączeń, kontakty, blokowanie numerów, konferencje i statystyki.">
-<meta property="og:title" content="OpenCall">
+<meta property="og:title" content="OpenDial">
 <meta property="og:description" content="Telefon i kontakty bez reklam">
 
 <style>
@@ -67,12 +67,12 @@
 </head>
 <body>
 <header class="hero wrap">
-  <img class="icon" src="icon.png" alt="OpenCall" width="96" height="96">
-  <h1>OpenCall</h1>
+  <img class="icon" src="icon.png" alt="OpenDial" width="96" height="96">
+  <h1>OpenDial</h1>
   <p class="tagline">Telefon i kontakty bez reklam</p>
   <p class="lead">Pełny ekran rozmowy, klawiatura z wyszukiwaniem T9, historia połączeń, kontakty, blokowanie numerów, konferencje i statystyki.</p>
   <div class="actions">
-    <a class="btn primary" id="download" href="https://github.com/BlackSingularities/OpenCall/releases/latest">Pobierz na Androida</a>
+    <a class="btn primary" id="download" href="https://github.com/BlackSingularities/OpenDial/releases/latest">Pobierz na Androida</a>
     
   </div>
   <p class="meta" id="version">Plik APK · Android 10 lub nowszy</p>
@@ -97,7 +97,7 @@
   <section>
     <div class="support">
       <h2>Darmowa, bez reklam</h2>
-      <p>OpenCall jest i zostanie darmowa. Pomysł i wykonanie: Adam Rędzikowski. Jeśli aplikacja Ci się przydaje, możesz wesprzeć jej rozwój, stawiając mi kawę.</p>
+      <p>OpenDial jest i zostanie darmowa. Pomysł i wykonanie: Adam Rędzikowski. Jeśli aplikacja Ci się przydaje, możesz wesprzeć jej rozwój, stawiając mi kawę.</p>
       <a class="btn coffee" href="https://buycoffee.to/adamredzikowski">☕ Postaw kawę na buycoffee.to</a>
     </div>
   </section>
@@ -109,7 +109,7 @@
 
 <script>
   // Przycisk prowadzi prosto do pliku APK z najnowszego wydania.
-  fetch("https://api.github.com/repos/BlackSingularities/OpenCall/releases/latest")
+  fetch("https://api.github.com/repos/BlackSingularities/OpenDial/releases/latest")
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (rel) {
       if (!rel) return;

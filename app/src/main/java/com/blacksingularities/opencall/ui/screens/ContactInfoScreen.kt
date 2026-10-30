@@ -296,7 +296,7 @@ fun ContactInfoScreen(vm: AppViewModel, contactId: Long?, number: String?) {
                 1 -> {
                     vm.dialed = PhoneText.digits(n)
                     vm.stack.clear()
-                    vm.selectTab(3)
+                    vm.openKeypad()
                 }
                 2 -> if (d != null) {
                     vm.contactsRepo.setPrimaryNumber(d.id, n)

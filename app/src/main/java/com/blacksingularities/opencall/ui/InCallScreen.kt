@@ -4,6 +4,12 @@ import android.telecom.CallAudioState
 import android.telecom.DisconnectCause
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.material.icons.automirrored.rounded.VolumeOff
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -122,7 +128,35 @@ fun InCallScreen(
         }
     }
 
-    Box(Modifier.fillMaxSize().background(Palette.Ink).windowInsetsPadding(WindowInsets.safeDrawing)) {
+    val glow by animateColorAsState(
+        when {
+            primary == null -> Palette.Record
+            primary.ringing -> Palette.Answer
+            primary.held -> Palette.Hold
+            else -> Palette.Talk
+        },
+        tween(600),
+        label = "glow",
+    )
+    val breathe = rememberInfiniteTransition(label = "bg")
+    val glowAlpha by breathe.animateFloat(0.22f, 0.36f, infiniteRepeatable(tween(2600), RepeatMode.Reverse), label = "glowAlpha")
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Palette.Ink)
+            .drawBehind {
+                // Miękka poświata za awatarem: zielona – dzwoni, niebieska – rozmowa, czerwona – koniec.
+                drawRect(
+                    Brush.radialGradient(
+                        listOf(glow.copy(alpha = glowAlpha), Color.Transparent),
+                        center = Offset(size.width / 2, size.height * 0.32f),
+                        radius = size.maxDimension * 0.62f,
+                    ),
+                )
+                drawRect(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.6f)), startY = size.height * 0.55f))
+            }
+            .windowInsetsPadding(WindowInsets.safeDrawing),
+    ) {
         if (shown == null) return@Box
         val ringing = primary?.ringing == true
         val others = calls.filter { it.call != primary?.call }
@@ -245,10 +279,28 @@ private fun stateText(c: CallView): String = when {
 @Composable
 private fun CallerHeader(c: CallView, ended: Boolean, settings: AppSettings) {
     val pulse = rememberInfiniteTransition(label = "ring")
-    val scale by pulse.animateFloat(1f, 1.06f, infiniteRepeatable(tween(900), RepeatMode.Reverse), label = "ringScale")
+    val scale by pulse.animateFloat(1f, 1.05f, infiniteRepeatable(tween(900), RepeatMode.Reverse), label = "ringScale")
+    val wave by pulse.animateFloat(0f, 1f, infiniteRepeatable(tween(1800)), label = "wave")
+    val waves = (c.ringing || c.dialing) && !ended
+    val waveColor = if (c.ringing) Palette.Answer else Color.White
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Avatar(c.title, c.photoUri, 120.dp, modifier = if (c.ringing) Modifier.scale(scale) else Modifier)
-        Spacer(Modifier.height(18.dp))
+        Box(
+            Modifier
+                .size(200.dp)
+                .drawBehind {
+                    if (!waves) return@drawBehind
+                    // Trzy rozchodzące się kręgi – „dzwoni” widać bez czytania.
+                    val base = 66.dp.toPx()
+                    for (i in 0 until 3) {
+                        val t = (wave + i / 3f) % 1f
+                        drawCircle(waveColor.copy(alpha = (1f - t) * 0.35f), radius = base + t * (size.minDimension / 2 - base), style = Stroke(2.dp.toPx()))
+                    }
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            Avatar(c.title, c.photoUri, 128.dp, modifier = if (c.ringing) Modifier.scale(scale) else Modifier)
+        }
+        Spacer(Modifier.height(6.dp))
         Text(
             c.title.ifBlank { tr("Numer prywatny") },
             fontSize = if (c.title.length > 18) 26.sp else 32.sp,
@@ -280,7 +332,17 @@ private fun CallerHeader(c: CallView, ended: Boolean, settings: AppSettings) {
                     delay(500)
                 }
             }
-            Text(PhoneText.duration(((now - c.connectTime) / 1000).coerceAtLeast(0)), style = MonoDigits.copy(fontSize = 18.sp), color = Color.White)
+            val blink by pulse.animateFloat(0.35f, 1f, infiniteRepeatable(tween(800), RepeatMode.Reverse), label = "live")
+            Row(
+                Modifier.clip(RoundedCornerShape(50)).background(Color.White.copy(alpha = 0.08f)).padding(horizontal = 14.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(Modifier.size(8.dp).clip(CircleShape).background(Palette.Answer.copy(alpha = blink)))
+                Spacer(Modifier.width(8.dp))
+                Text(PhoneText.duration(((now - c.connectTime) / 1000).coerceAtLeast(0)), style = MonoDigits.copy(fontSize = 18.sp), color = Color.White)
+            }
+        } else if (c.held) {
+            Text(tr("Zawieszone"), color = Palette.Hold, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
         } else {
             Text(stateText(c), color = Palette.TextDim, fontSize = 15.sp)
         }
@@ -313,14 +375,23 @@ private fun IncomingControls(c: CallView, others: List<CallView>, settings: AppS
             }
             return@Column
         }
+        var silenced by remember(c.call) { mutableStateOf(false) }
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(bottom = 22.dp)) {
+            PillButton(
+                if (silenced) tr("Wyciszono") else tr("Wycisz dzwonek"),
+                primary = false,
+                icon = Icons.AutoMirrored.Rounded.VolumeOff,
+            ) {
+                silenced = true
+                CallManager.silenceRinger()
+            }
+            PillButton(tr("Wiadomość"), primary = false, icon = Icons.Rounded.Sms, onClick = onReplies)
+        }
         if (settings.swipeToAnswer) {
             AnswerSlider(onAnswer = { CallManager.answer(c.call) }, onDecline = { CallManager.reject(c.call) })
-            Spacer(Modifier.height(18.dp))
-            PillButton(tr("Odrzuć z wiadomością"), primary = false, icon = Icons.Rounded.Sms, onClick = onReplies)
         } else {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.Bottom) {
                 BigButton(Icons.Rounded.CallEnd, tr("Odrzuć"), Palette.Record) { CallManager.reject(c.call) }
-                BigButton(Icons.Rounded.Sms, tr("Wiadomość"), Color.White.copy(alpha = 0.12f), small = true, onClick = onReplies)
                 BigButton(Icons.Rounded.Call, tr("Odbierz"), Palette.Answer) { CallManager.answer(c.call) }
             }
         }
@@ -355,24 +426,29 @@ private fun AnswerSlider(onAnswer: () -> Unit, onDecline: () -> Unit) {
     BoxWithConstraints(
         Modifier
             .fillMaxWidth()
-            .height(76.dp)
+            .height(68.dp)
             .clip(RoundedCornerShape(50))
-            .background(Color.White.copy(alpha = 0.07f)),
+            .background(Color.White.copy(alpha = 0.08f)),
         contentAlignment = Alignment.Center,
     ) {
-        val knob = 64.dp
+        val knob = 60.dp
         val maxPx = with(density) { ((maxWidth - knob) / 2 - 6.dp).toPx() }
         val progress = (offset.value / maxPx).coerceIn(-1f, 1f)
-        Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Rounded.CallEnd, null, tint = Palette.Record.copy(alpha = 0.5f + 0.5f * (-progress).coerceAtLeast(0f)))
-            Text(
-                tr("Przesuń: odbierz ›  ‹ odrzuć"),
-                color = Palette.TextFaint,
-                fontSize = 11.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f),
-            )
-            Icon(Icons.Rounded.Call, null, tint = Palette.Answer.copy(alpha = 0.5f + 0.5f * progress.coerceAtLeast(0f)))
+        val hint = rememberInfiniteTransition(label = "hint")
+        val shimmer by hint.animateFloat(0f, 1f, infiniteRepeatable(tween(1400)), label = "shimmer")
+        Row(Modifier.fillMaxWidth().padding(horizontal = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(56.dp).clip(CircleShape).background(Palette.Record.copy(alpha = 0.2f + 0.6f * (-progress).coerceAtLeast(0f))), contentAlignment = Alignment.Center) {
+                Icon(Icons.Rounded.CallEnd, tr("Odrzuć"), tint = Color.White)
+            }
+            Row(Modifier.weight(1f), horizontalArrangement = Arrangement.Center) {
+                // Strzałki „płyną” od gałki ku obu krawędziom.
+                for (i in 2 downTo 0) Chevron("‹", shimmer, i)
+                Spacer(Modifier.width(knob + 4.dp))
+                for (i in 0..2) Chevron("›", shimmer, i)
+            }
+            Box(Modifier.size(56.dp).clip(CircleShape).background(Palette.Answer.copy(alpha = 0.2f + 0.6f * progress.coerceAtLeast(0f))), contentAlignment = Alignment.Center) {
+                Icon(Icons.Rounded.Call, tr("Odbierz"), tint = Color.White)
+            }
         }
         val knobColor = when {
             progress > 0.05f -> Palette.Answer
@@ -417,6 +493,13 @@ private fun AnswerSlider(onAnswer: () -> Unit, onDecline: () -> Unit) {
             )
         }
     }
+}
+
+/** Jedna strzałka podpowiedzi; [index] przesuwa fazę, więc trzy razem dają efekt „płynięcia”. */
+@Composable
+private fun Chevron(glyph: String, phase: Float, index: Int) {
+    val a = 1f - (((phase * 3f) - index + 3f) % 3f) / 3f
+    Text(glyph, color = Color.White.copy(alpha = 0.15f + 0.55f * a), fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 1.dp))
 }
 
 /** Trwa rozmowa: siatka przełączników i duży czerwony przycisk rozłączenia. */
@@ -485,9 +568,9 @@ private fun OngoingControls(
         Box(
             Modifier
                 .reactive(tr("Rozłącz")) { CallManager.hangup(c.call) }
-                .size(76.dp)
-                .clip(CircleShape)
-                .background(Palette.Record),
+                .size(width = 150.dp, height = 72.dp)
+                .clip(RoundedCornerShape(50))
+                .background(Brush.verticalGradient(listOf(Color(0xFFFF5A64), Palette.Record))),
             contentAlignment = Alignment.Center,
         ) {
             Icon(Icons.Rounded.CallEnd, null, tint = Color.White, modifier = Modifier.size(34.dp))

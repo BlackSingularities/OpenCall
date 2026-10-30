@@ -18,6 +18,9 @@ object Palette {
     val Record = Color(0xFFFF3B47)
     val Answer = Color(0xFF2FD073)
     val Moon = Color(0xFFBDBDBD)
+    /** Poświata ekranu rozmowy: trwająca rozmowa i zawieszone połączenie. */
+    val Talk = Color(0xFF4F7CFF)
+    val Hold = Color(0xFFFFB020)
     val Ink = Color(0xFF000000)
     val Panel = Color(0xFF000000)
     val PanelHigh = Color(0xFF1C1C1C)
@@ -54,6 +57,6 @@ private val scheme = darkColorScheme(
 val MonoDigits = TextStyle(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Medium, fontSize = 14.sp)
 
 @Composable
-fun OpenCallTheme(content: @Composable () -> Unit) {
+fun OpenDialTheme(content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = scheme, typography = Typography(), content = content)
 }

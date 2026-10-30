@@ -5,7 +5,7 @@ import org.json.JSONObject
 import java.io.File
 
 /** Repozytorium z wydaniami aplikacji. */
-const val UPDATE_REPO = "BlackSingularities/OpenCall"
+const val UPDATE_REPO = "BlackSingularities/OpenDial"
 const val UPDATE_API = "https://redzikowski.com/api/github/repos/$UPDATE_REPO/releases/latest"
 
 data class ReleaseInfo(

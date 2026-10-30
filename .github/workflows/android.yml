@@ -70,12 +70,12 @@ jobs:
         run: gradle :app:assembleRelease -PversionCode=${{ needs.version.outputs.code }} -PversionName=${{ needs.version.outputs.name }} --stacktrace
 
       - name: Przygotowanie pliku
-        run: cp app/build/outputs/apk/release/app-release.apk "OpenCall-${{ needs.version.outputs.name }}.apk"
+        run: cp app/build/outputs/apk/release/app-release.apk "OpenDial-${{ needs.version.outputs.name }}.apk"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: OpenCall-${{ needs.version.outputs.name }}-android
-          path: OpenCall-${{ needs.version.outputs.name }}.apk
+          name: OpenDial-${{ needs.version.outputs.name }}-android
+          path: OpenDial-${{ needs.version.outputs.name }}.apk
 
   release:
     needs: [version, android]
@@ -104,9 +104,9 @@ jobs:
             LOG=$(git log -5 --pretty='- %s' "$GITHUB_SHA")
             NOTES=$(printf 'Poprawki i ulepszenia:\n\n%s' "$LOG")
           fi
-          FOOTER=$(printf -- '---\nPobierz **OpenCall-%s.apk** i zainstaluj na telefonie (Android 10+). Kolejne wersje aplikacja pobierze sama.' "$NAME")
-          gh release create "$TAG" "dist/OpenCall-$NAME.apk" \
+          FOOTER=$(printf -- '---\nPobierz **OpenDial-%s.apk** i zainstaluj na telefonie (Android 10+). Kolejne wersje aplikacja pobierze sama.' "$NAME")
+          gh release create "$TAG" "dist/OpenDial-$NAME.apk" \
             --target "$GITHUB_SHA" \
-            --title "OpenCall $NAME" \
+            --title "OpenDial $NAME" \
             --notes "$(printf '%s\n\n%s' "$NOTES" "$FOOTER")" \
             --latest

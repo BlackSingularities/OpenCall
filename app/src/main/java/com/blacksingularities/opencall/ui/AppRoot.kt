@@ -30,8 +30,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.material.icons.rounded.Contacts
-import androidx.compose.material.icons.rounded.Dialpad
-import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhoneInTalk
 import androidx.compose.material.icons.rounded.SimCard
 import androidx.compose.material.icons.rounded.Star
@@ -61,7 +59,6 @@ import com.blacksingularities.opencall.ui.screens.BackupScreen
 import com.blacksingularities.opencall.ui.screens.BlockedScreen
 import com.blacksingularities.opencall.ui.screens.ContactInfoScreen
 import com.blacksingularities.opencall.ui.screens.ContactsTab
-import com.blacksingularities.opencall.ui.screens.DialerTab
 import com.blacksingularities.opencall.ui.screens.DuplicatesScreen
 import com.blacksingularities.opencall.ui.screens.EditContactScreen
 import com.blacksingularities.opencall.ui.screens.FavoritesTab
@@ -150,9 +147,8 @@ private fun MainTabs(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermi
             ) { t ->
                 when (t) {
                     0 -> FavoritesTab(vm, onRequestRole, onRequestPermissions)
-                    1 -> RecentsTab(vm, onRequestRole, onRequestPermissions)
                     2 -> ContactsTab(vm, onRequestRole, onRequestPermissions)
-                    else -> DialerTab(vm)
+                    else -> RecentsTab(vm, onRequestRole, onRequestPermissions)
                 }
             }
         }
@@ -171,9 +167,11 @@ private fun BottomBar(vm: AppViewModel) {
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         if (vm.settings.showFavoritesTab) TabItem(Icons.Rounded.Star, tr("Ulubione"), vm.tab == 0) { vm.selectTab(0) }
-        TabItem(Icons.Rounded.History, tr("Ostatnie"), vm.tab == 1, badge = vm.unseenMissed) { vm.selectTab(1) }
+        // „Telefon” = historia i klawiatura w jednym widoku; ponowne dotknięcie rozwija/zwija klawiaturę.
+        TabItem(Icons.Rounded.Call, tr("Telefon"), vm.tab == 1, badge = vm.unseenMissed) {
+            if (vm.tab == 1) vm.keypadOpen = !vm.keypadOpen else vm.selectTab(1)
+        }
         TabItem(Icons.Rounded.Contacts, tr("Kontakty"), vm.tab == 2) { vm.selectTab(2) }
-        TabItem(Icons.Rounded.Dialpad, tr("Klawiatura"), vm.tab == 3) { vm.selectTab(3) }
     }
 }
 

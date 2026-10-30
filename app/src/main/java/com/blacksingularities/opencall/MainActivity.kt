@@ -15,7 +15,7 @@ import com.blacksingularities.opencall.data.PhoneText
 import com.blacksingularities.opencall.ui.AppRoot
 import com.blacksingularities.opencall.ui.AppViewModel
 import com.blacksingularities.opencall.ui.Route
-import com.blacksingularities.opencall.ui.theme.OpenCallTheme
+import com.blacksingularities.opencall.ui.theme.OpenDialTheme
 import com.blacksingularities.opencall.update.UpdateManager
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            OpenCallTheme {
+            OpenDialTheme {
                 AppRoot(vm, onRequestRole = ::requestRole, onRequestPermissions = ::requestPermissions)
             }
         }
@@ -110,7 +110,7 @@ class MainActivity : ComponentActivity() {
                 vm.stack.clear()
                 vm.addingCall = true
                 vm.dialed = ""
-                vm.selectTab(3)
+                vm.openKeypad()
             }
         }
     }
@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
     private fun openDialer(number: String) {
         vm.stack.clear()
         vm.dialed = PhoneText.digits(Uri.decode(number)).ifEmpty { number.filter { it.isDigit() || it in "+*#" } }
-        vm.selectTab(3)
+        vm.openKeypad()
     }
 
     private fun openContact(uri: Uri) {

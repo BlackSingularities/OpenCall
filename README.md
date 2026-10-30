@@ -1,6 +1,6 @@
-# OpenCall
+# OpenDial
 
-<img src="artwork/app-icon.png" alt="OpenCall" width="128" />
+<img src="artwork/app-icon.png" alt="OpenDial" width="128" />
 
 **Otwarta aplikacja do połączeń i kontaktów dla Androida** – pełny ekran rozmowy, klawiatura z wyszukiwaniem T9, historia połączeń, kontakty z edytorem i vCard, blokowanie numerów, konferencje i statystyki. Bez reklam, bez śledzenia, bez kont.
 
@@ -10,11 +10,11 @@
 
 Najnowszy plik jest zawsze w **[Releases → Latest](../../releases/latest)**. Każdy wypchnięty tag `vX.Y.Z` buduje i publikuje nowe wydanie automatycznie, a aplikacja sama proponuje aktualizację.
 
-1. Pobierz `OpenCall-x.y.z.apk` na telefon.
+1. Pobierz `OpenDial-x.y.z.apk` na telefon.
 2. Otwórz plik i zezwól na instalację z tego źródła.
 3. Wymagany Android 10 (API 29) lub nowszy.
 
-Aby OpenCall obsługiwał ekran rozmowy, odbieranie, blokowanie i powiadomienia o nieodebranych, ustaw go jako **domyślną aplikację telefonu** – aplikacja proponuje to przy pierwszym uruchomieniu (Ustawienia → Aplikacje domyślne → Telefon).
+Aby OpenDial obsługiwał ekran rozmowy, odbieranie, blokowanie i powiadomienia o nieodebranych, ustaw go jako **domyślną aplikację telefonu** – aplikacja proponuje to przy pierwszym uruchomieniu (Ustawienia → Aplikacje domyślne → Telefon).
 
 ## Funkcje
 

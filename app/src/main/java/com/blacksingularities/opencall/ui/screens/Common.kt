@@ -136,7 +136,7 @@ fun SetupCard(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions:
             Icon(if (needRole) Icons.AutoMirrored.Rounded.PhoneForwarded else Icons.Rounded.Lock, null, tint = Palette.Ink, modifier = Modifier.size(26.dp))
             Spacer(Modifier.width(12.dp))
             Text(
-                if (needRole) tr("Ustaw OpenCall jako aplikację telefonu") else tr("Zezwól na dostęp"),
+                if (needRole) tr("Ustaw OpenDial jako aplikację telefonu") else tr("Zezwól na dostęp"),
                 color = Palette.Ink,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
@@ -145,7 +145,7 @@ fun SetupCard(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions:
         Spacer(Modifier.height(6.dp))
         Text(
             if (needRole) {
-                tr("Wtedy OpenCall obsługuje ekran rozmowy, odbieranie, blokowanie numerów i powiadomienia o nieodebranych.")
+                tr("Wtedy OpenDial obsługuje ekran rozmowy, odbieranie, blokowanie numerów i powiadomienia o nieodebranych.")
             } else {
                 tr("Kontakty, historia połączeń i telefon są potrzebne, żeby wyświetlać listy i dzwonić.")
             },

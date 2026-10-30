@@ -17,11 +17,19 @@ internal val En: Map<String, String> = hashMapOf(
     "Aktualizuj" to "Update",
     "Anuluj zaznaczenie" to "Clear selection",
     "Anuluj" to "Cancel",
+    "Brak dopasowań" to "No matches",
+    "Naciśnij zieloną słuchawkę, aby zadzwonić pod ten numer." to "Tap the green handset to call this number.",
+    "Pokaż klawiaturę" to "Show keypad",
+    "Telefon z klawiaturą" to "Phone with keypad",
+    "Wpisz numer" to "Enter a number",
+    "Wycisz dzwonek" to "Silence ringer",
+    "Wyciszono" to "Silenced",
+    "Zwiń klawiaturę" to "Hide keypad",
     "Aplikacje domyślne" to "Default apps",
     "Bez reklam, bez śledzenia, bez kont. Dane zostają w telefonie – aplikacja łączy się z internetem tylko po aktualizacje." to
         "No ads, no tracking, no accounts. Your data stays on the phone — the app goes online only to check for updates.",
-    "Blokowanie działa, gdy OpenCall jest domyślną aplikacją telefonu." to
-        "Blocking works once OpenCall is your default phone app.",
+    "Blokowanie działa, gdy OpenDial jest domyślną aplikacją telefonu." to
+        "Blocking works once OpenDial is your default phone app.",
     "Blokowanie i narzędzia" to "Blocking and tools",
     "Blokowanie wymaga roli domyślnej aplikacji telefonu" to "Blocking needs the default phone app role",
     "Blokowanie" to "Blocking",
@@ -187,10 +195,9 @@ internal val En: Map<String, String> = hashMapOf(
     "Okno „Zadzwonić?” przed wybraniem numeru – chroni przed przypadkowym dotknięciem" to
         "A “Call?” prompt before dialling — protects against an accidental tap",
     "Opcje" to "Options",
-    "OpenCall zaktualizowany do {0}" to "OpenCall updated to {0}",
+    "OpenDial zaktualizowany do {0}" to "OpenDial updated to {0}",
     "Ostatnie 30 dni" to "Last 30 days",
     "Ostatnie 7 dni" to "Last 7 days",
-    "Ostatnie" to "Recents",
     "Ostatnie: {0}" to "Last call: {0}",
     "Ostatnio otwarta zakładka" to "Last open tab",
     "Otwiera kontakt" to "Opens the contact",
@@ -229,7 +236,6 @@ internal val En: Map<String, String> = hashMapOf(
     "Przekierowania, połączenia oczekujące, ID dzwoniącego" to "Forwarding, call waiting, caller ID",
     "Przesuń gałkę w prawo, aby odebrać – bez przypadkowych odebrań w kieszeni" to
         "Drag the knob to the right to answer — no pocket answers",
-    "Przesuń: odbierz ›  ‹ odrzuć" to "Swipe: answer ›  ‹ decline",
     "Przełącz na to połączenie" to "Switch to this call",
     "Przy uruchomieniu, najwyżej co 6 godzin – z GitHub Releases" to
         "On launch, at most every 6 hours — from GitHub Releases",
@@ -302,7 +308,7 @@ internal val En: Map<String, String> = hashMapOf(
     "Urodziny (RRRR-MM-DD)" to "Birthday (YYYY-MM-DD)",
     "Urodziny" to "Birthday",
     "Urządzenie Bluetooth" to "Bluetooth device",
-    "Ustaw OpenCall jako aplikację telefonu" to "Make OpenCall your phone app",
+    "Ustaw OpenDial jako aplikację telefonu" to "Make OpenDial your phone app",
     "Ustaw jako domyślny" to "Set as default",
     "Ustaw jako domyślną aplikację telefonu" to "Set as the default phone app",
     "Ustaw jako domyślną" to "Set as default",
@@ -360,8 +366,8 @@ internal val En: Map<String, String> = hashMapOf(
     "Wstecz" to "Back",
     "Wszystkie" to "All",
     "Wszystko" to "Everything",
-    "Wtedy OpenCall obsługuje ekran rozmowy, odbieranie, blokowanie numerów i powiadomienia o nieodebranych." to
-        "OpenCall then handles the in-call screen, answering, number blocking and missed-call notifications.",
+    "Wtedy OpenDial obsługuje ekran rozmowy, odbieranie, blokowanie numerów i powiadomienia o nieodebranych." to
+        "OpenDial then handles the in-call screen, answering, number blocking and missed-call notifications.",
     "Wybierasz je na ekranie dzwonienia: „Odrzuć z wiadomością”." to
         "You pick one on the incoming call screen: “Decline with a message”.",
     "Wybierz kontakt" to "Pick a contact",

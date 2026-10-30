@@ -1,6 +1,17 @@
 package com.blacksingularities.opencall.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -97,11 +108,23 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
         }
     }
 
+    BackHandler(enabled = vm.keypadOpen && vm.stack.isEmpty()) { vm.keypadOpen = false }
+    // Przewinięcie historii palcem zwija pustą klawiaturę – jak w Samsungu i Huaweiu.
+    val collapseOnScroll = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (source == NestedScrollSource.UserInput && kotlin.math.abs(available.y) > 4f && vm.keypadOpen && vm.dialed.isEmpty()) vm.keypadOpen = false
+                return Offset.Zero
+            }
+        }
+    }
+    val typing = vm.keypadOpen && vm.dialed.isNotEmpty()
+
     Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars)) {
         SearchHeader(vm, query, { query = it }, tr("Szukaj w historii")) {
             RoundIcon(Icons.Rounded.DeleteSweep, tr("Wyczyść historię"), enabled = vm.calls.isNotEmpty()) { confirmClear = true }
         }
-        Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
+        if (!typing) Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
             ChipRow {
                 TabChip(null, tr("Wszystkie"), filter == RecentFilter.ALL) { filter = RecentFilter.ALL }
                 TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED) { filter = RecentFilter.MISSED }
@@ -110,12 +133,15 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
                 TabChip(Icons.Rounded.Block, tr("Zablokowane"), filter == RecentFilter.BLOCKED) { filter = RecentFilter.BLOCKED }
             }
         }
-        if (!vm.hasCallLog) {
-            SetupCard(vm, onRequestRole, onRequestPermissions, Modifier.padding(14.dp))
-            NoPermission(tr("Historia połączeń wymaga dostępu do rejestru połączeń."), onRequestPermissions)
-            return@Column
-        }
-        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 16.dp)) {
+        Box(Modifier.weight(1f).fillMaxWidth()) {
+        if (typing) {
+            DialSuggestions(vm, Modifier.fillMaxSize())
+        } else if (!vm.hasCallLog) {
+            Column {
+                SetupCard(vm, onRequestRole, onRequestPermissions, Modifier.padding(14.dp))
+                NoPermission(tr("Historia połączeń wymaga dostępu do rejestru połączeń."), onRequestPermissions)
+            }
+        } else LazyColumn(Modifier.fillMaxSize().nestedScroll(collapseOnScroll), contentPadding = PaddingValues(bottom = 96.dp)) {
             item { SetupCard(vm, onRequestRole, onRequestPermissions, Modifier.padding(horizontal = 14.dp, vertical = 6.dp)) }
             if (list.isEmpty() && vm.loaded) {
                 item {
@@ -149,6 +175,18 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
                 }
             }
         }
+            androidx.compose.animation.AnimatedVisibility(
+                visible = !vm.keypadOpen,
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut(),
+                modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp),
+            ) { DialpadFab({ vm.keypadOpen = true }) }
+        }
+        AnimatedVisibility(
+            visible = vm.keypadOpen,
+            enter = slideInVertically { it } + fadeIn(),
+            exit = slideOutVertically { it } + fadeOut(),
+        ) { DialerPanel(vm, onCollapse = { vm.keypadOpen = false }) }
     }
 
     menu?.let { g -> CallMenu(vm, g) { menu = null } }
@@ -301,7 +339,7 @@ private fun CallMenu(vm: AppViewModel, g: CallGroup, onDismiss: () -> Unit) {
                 com.blacksingularities.opencall.ui.components.ActionRow(Icons.Rounded.Call, tr("Edytuj numer przed połączeniem")) {
                     go {
                         vm.dialed = PhoneText.digits(e.number)
-                        vm.selectTab(3)
+                        vm.openKeypad()
                     }
                 }
                 if (!inContacts) com.blacksingularities.opencall.ui.components.ActionRow(Icons.Rounded.PersonAdd, tr("Dodaj do kontaktów")) { go { vm.newContact(e.number) } }

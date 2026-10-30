@@ -91,7 +91,7 @@ fun BlockedScreen(vm: AppViewModel) {
         }
     }) {
         if (!vm.isDefaultDialer) {
-            Text(tr("Blokowanie działa, gdy OpenCall jest domyślną aplikacją telefonu."), color = Palette.Record, fontSize = 13.sp, modifier = Modifier.padding(6.dp))
+            Text(tr("Blokowanie działa, gdy OpenDial jest domyślną aplikacją telefonu."), color = Palette.Record, fontSize = 13.sp, modifier = Modifier.padding(6.dp))
         }
         Group(tr("Filtry")) {
             SwitchRow(Icons.Rounded.VisibilityOff, tr("Blokuj numery ukryte"), tr("Połączenia bez numeru („Numer prywatny”)"), s.blockHidden) { v -> vm.updateSettings { it.copy(blockHidden = v) } }

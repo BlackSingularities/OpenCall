@@ -223,7 +223,7 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
         }
 
         Column(Modifier.padding(horizontal = 6.dp)) {
-            Text("OpenCall ${BuildConfig.VERSION_NAME}", color = Palette.TextDim, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text("OpenDial ${BuildConfig.VERSION_NAME}", color = Palette.TextDim, fontSize = 12.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(4.dp))
             Text(tr("Bez reklam, bez śledzenia, bez kont. Dane zostają w telefonie – aplikacja łączy się z internetem tylko po aktualizacje."), color = Palette.TextDim, fontSize = 11.sp, lineHeight = 15.sp)
         }
@@ -251,8 +251,8 @@ fun SettingsScreen(vm: AppViewModel, onRequestRole: () -> Unit) {
 
 private fun startLabel(t: StartTab) = when (t) {
     StartTab.FAVORITES -> tr("Ulubione")
-    StartTab.RECENTS -> tr("Ostatnie")
+    StartTab.RECENTS -> tr("Telefon")
     StartTab.CONTACTS -> tr("Kontakty")
-    StartTab.KEYPAD -> tr("Klawiatura")
+    StartTab.KEYPAD -> tr("Telefon z klawiaturą")
     StartTab.LAST -> tr("Ostatnio otwarta zakładka")
 }

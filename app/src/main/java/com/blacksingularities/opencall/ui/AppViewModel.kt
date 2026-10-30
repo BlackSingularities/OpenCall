@@ -79,11 +79,15 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             StartTab.FAVORITES -> 0
             StartTab.RECENTS -> 1
             StartTab.CONTACTS -> 2
-            StartTab.KEYPAD -> 3
-            StartTab.LAST -> settings.lastTab.coerceIn(0, 3)
+            StartTab.KEYPAD -> 1
+            // Dawna osobna zakładka „Klawiatura” (3) jest teraz częścią „Telefonu”.
+            StartTab.LAST -> settings.lastTab.let { if (it == 3) 1 else it.coerceIn(0, 2) }
         }.let { if (it == 0 && !settings.showFavoritesTab) 1 else it },
     )
         private set
+
+    /** Klawiatura rozwinięta nad historią w zakładce „Telefon”. */
+    var keypadOpen by mutableStateOf(settings.startTab == StartTab.KEYPAD || (settings.startTab == StartTab.LAST && settings.lastTab == 3))
 
     val stack = mutableStateListOf<Route>()
     val route: Route? get() = stack.lastOrNull()
@@ -161,6 +165,12 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         tab = i
         if (settings.lastTab != i) updateSettings { it.copy(lastTab = i) }
         if (i == 1) markMissedSeen()
+    }
+
+    /** Zakładka „Telefon” z rozwiniętą klawiaturą. */
+    fun openKeypad() {
+        selectTab(1)
+        keypadOpen = true
     }
 
     fun push(r: Route) {

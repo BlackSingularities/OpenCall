@@ -6,7 +6,7 @@ import com.blacksingularities.opencall.call.CallNotifications
 import com.blacksingularities.opencall.data.SettingsStore
 import com.blacksingularities.opencall.i18n.I18n
 
-class OpenCallApp : Application() {
+class OpenDialApp : Application() {
     override fun onCreate() {
         super.onCreate()
         I18n.apply(SettingsStore(this).load().language)

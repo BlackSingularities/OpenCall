@@ -20,7 +20,7 @@ object Dialer {
     fun isDefault(context: Context): Boolean =
         runCatching { telecom(context).defaultDialerPackage == context.packageName }.getOrDefault(false)
 
-    /** Okno systemu „Ustawić OpenCall jako domyślną aplikację telefonu?” – null, gdy rola już jest. */
+    /** Okno systemu „Ustawić OpenDial jako domyślną aplikację telefonu?” – null, gdy rola już jest. */
     fun roleRequest(context: Context): Intent? {
         val rm = context.getSystemService(RoleManager::class.java) ?: return null
         if (!rm.isRoleAvailable(RoleManager.ROLE_DIALER) || rm.isRoleHeld(RoleManager.ROLE_DIALER)) return null

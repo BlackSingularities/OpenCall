@@ -12,12 +12,12 @@ class UpdatesTest {
     private val release = """
         {
           "tag_name": "v0.2.0",
-          "name": "OpenCall 0.2.0",
-          "html_url": "https://github.com/BlackSingularities/OpenCall/releases/tag/v0.2.0",
+          "name": "OpenDial 0.2.0",
+          "html_url": "https://github.com/BlackSingularities/OpenDial/releases/tag/v0.2.0",
           "body": "Nowości\n- blokowanie prefiksów\n\n---\nStopka wydania, której nie pokazujemy",
           "assets": [
             {"name": "mapping.txt", "browser_download_url": "https://example.com/mapping.txt", "size": 10},
-            {"name": "OpenCall-0.2.0.apk", "browser_download_url": "https://example.com/app.apk", "size": 7340032}
+            {"name": "OpenDial-0.2.0.apk", "browser_download_url": "https://example.com/app.apk", "size": 7340032}
           ]
         }
     """.trimIndent()
@@ -28,7 +28,7 @@ class UpdatesTest {
         assertEquals("0.2.0", info.version)
         assertEquals("https://example.com/app.apk", info.assetUrl)
         assertEquals(7_340_032L, info.sizeBytes)
-        assertEquals("https://github.com/BlackSingularities/OpenCall/releases/tag/v0.2.0", info.pageUrl)
+        assertEquals("https://github.com/BlackSingularities/OpenDial/releases/tag/v0.2.0", info.pageUrl)
         // Wszystko po „---” to stopka generowana przez CI – nie trafia do powiadomienia.
         assertFalse(info.notes.contains("Stopka"))
         assertTrue(info.notes.startsWith("Nowości"))

@@ -20,7 +20,7 @@ import com.blacksingularities.opencall.data.SettingsStore
 import com.blacksingularities.opencall.i18n.I18n
 import com.blacksingularities.opencall.ui.InCallScreen
 import com.blacksingularities.opencall.ui.theme.GlassScope
-import com.blacksingularities.opencall.ui.theme.OpenCallTheme
+import com.blacksingularities.opencall.ui.theme.OpenDialTheme
 import kotlinx.coroutines.delay
 
 /**
@@ -41,7 +41,7 @@ class CallActivity : ComponentActivity() {
         I18n.apply(settings.language)
         handle(intent)
         setContent {
-            OpenCallTheme {
+            OpenDialTheme {
                 GlassScope(haptics = settings.haptics) {
                     val tick by CallManager.tick.collectAsState()
                     val audio by CallManager.audio.collectAsState()
@@ -99,7 +99,7 @@ class CallActivity : ComponentActivity() {
             if (proximity == null) {
                 val pm = getSystemService(PowerManager::class.java)
                 if (pm?.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK) == true) {
-                    proximity = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "OpenCall:proximity")
+                    proximity = pm.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "OpenDial:proximity")
                 }
             }
             proximity?.takeIf { !it.isHeld }?.acquire(4 * 60 * 60 * 1000L)

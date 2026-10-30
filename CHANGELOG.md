@@ -1,14 +1,18 @@
 # Zmiany
 
+## W przygotowaniu
+
+- **Nowa nazwa: OpenDial.** Repozytorium przeniesione na BlackSingularities/OpenDial; zainstalowana aplikacja aktualizuje się dalej bez reinstalacji.
+- Historia połączeń i klawiatura w jednym widoku „Telefon”, jak w Samsungu czy Huaweiu: klawiatura wysuwa się nad listą, przewinięcie historii ją zwija, a wpisane cyfry od razu pokazują pasujące kontakty (z podświetleniem dopasowania). Dolny pasek ma już tylko trzy zakładki.
+- Nowy ekran rozmowy: poświata w kolorze stanu (dzwoni, rozmowa, zawieszone, koniec), rozchodzące się kręgi wokół awatara przy dzwonieniu i łączeniu, licznik czasu z migającą kropką i szeroki przycisk rozłączania.
+- Nowy ekran połączenia przychodzącego: „Wycisz dzwonek” bez odrzucania, szybka wiadomość i suwak z płynącymi strzałkami.
+- Kadrowanie zdjęcia kontaktu: przesuwanie, przybliżanie dwoma palcami, dwuklik i obrót o 90°.
+- Kontakty jako lista albo kafelki (4, 3 lub 2 w rzędzie) – zmiana płynnym szczypaniem dwoma palcami; wybrany układ jest zapamiętywany.
+
 ## 0.1.6
 
 - Dopasowane kolorystycznie tła ikon aplikacji i spójne zasoby graficzne.
 - Nowa ikona aplikacji, warianty systemowe i odświeżona grafika na stronie projektu.
-
-## W przygotowaniu
-
-- Kadrowanie zdjęcia kontaktu: przesuwanie, przybliżanie dwoma palcami, dwuklik i obrót o 90°.
-- Kontakty jako lista albo kafelki (4, 3 lub 2 w rzędzie) – zmiana płynnym szczypaniem dwoma palcami; wybrany układ jest zapamiętywany.
 
 ## 0.1.3
 
@@ -30,7 +34,7 @@
 
 ## 0.1.0
 
-Pierwsze wydanie OpenCall – otwartej aplikacji do połączeń i kontaktów.
+Pierwsze wydanie (wtedy jeszcze jako OpenCall) – otwartej aplikacji do połączeń i kontaktów.
 
 - **Klawiatura** z wyszukiwaniem T9 (`5-2-6` → *Jan*, bez względu na polskie znaki), szybkim wybieraniem pod cyframi 2–9, tonami DTMF, wibracją klawiszy, wyborem karty SIM, kodami MMI i opcjonalnym potwierdzaniem połączeń.
 - **Ekran rozmowy**: wyciszanie, głośnik, Bluetooth i słuchawki, zawieszanie, klawiatura DTMF, drugie połączenie (zamiana, zakończ i odbierz, zawieś i odbierz), konferencje z listą uczestników, rozmową osobno i rozłączaniem jednej osoby. Odbieranie przesunięciem gałki, odrzucanie z SMS-em, czujnik zbliżeniowy, wibracja przy odebraniu i zakończeniu, powiadomienie o trwającej rozmowie z licznikiem.

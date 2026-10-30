@@ -43,7 +43,7 @@
     </queries>
 
     <application
-        android:name=".OpenCallApp"
+        android:name=".OpenDialApp"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -51,7 +51,7 @@
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OpenCall">
+        android:theme="@style/Theme.OpenDial">
 
         <activity
             android:name=".MainActivity"
@@ -102,10 +102,10 @@
             android:screenOrientation="portrait"
             android:showWhenLocked="true"
             android:taskAffinity="com.blacksingularities.opencall.call"
-            android:theme="@style/Theme.OpenCall.Call"
+            android:theme="@style/Theme.OpenDial.Call"
             android:turnScreenOn="true" />
 
-        <!-- Ekran rozmowy: Telecom wiąże tę usługę, gdy OpenCall jest domyślną aplikacją telefonu. -->
+        <!-- Ekran rozmowy: Telecom wiąże tę usługę, gdy OpenDial jest domyślną aplikacją telefonu. -->
         <service
             android:name=".call.CallService"
             android:exported="true"

@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "OpenCall"
+rootProject.name = "OpenDial"
 include(":app")
