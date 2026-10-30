@@ -1,5 +1,12 @@
 # Zmiany
 
+## 0.3.1
+
+- **Kadrowanie zdjęcia kontaktu naprawione:** wnętrze koła pokazuje teraz zdjęcie (wcześniej było czarne), przyciemniony jest tylko obszar poza kadrem.
+- Klawiatura w widoku „Telefon” ma czarne tło jak dolny pasek i płynnie w niego przechodzi; zwija się też przeciągnięciem w dół.
+- Filtry historii (wszystkie, nieodebrane, przychodzące, wychodzące, zablokowane) jako ikonki – nazwę ma tylko wybrany filtr.
+- Dolny pasek w tym samym stylu: same ikony, a otwarta zakładka to pigułka z ikoną i nazwą.
+
 ## 0.3.0
 
 - **Zegarek Wear OS.** Osobna aplikacja na zegarek: ekran połączenia przychodzącego (odbierz, odrzuć, wycisz dzwonek, odrzuć SMS-em), ekran rozmowy z licznikiem, mikrofonem, głośnikiem, zawieszeniem, klawiaturą DTMF oraz zamianą i scalaniem przy dwóch rozmowach, a poza rozmową lista ulubionych i ostatnich numerów do dzwonienia z nadgarstka.

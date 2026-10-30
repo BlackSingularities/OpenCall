@@ -126,11 +126,11 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
         }
         if (!typing) Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
             ChipRow {
-                TabChip(null, tr("Wszystkie"), filter == RecentFilter.ALL) { filter = RecentFilter.ALL }
-                TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED) { filter = RecentFilter.MISSED }
-                TabChip(Icons.AutoMirrored.Rounded.CallReceived, tr("Przychodzące"), filter == RecentFilter.INCOMING) { filter = RecentFilter.INCOMING }
-                TabChip(Icons.AutoMirrored.Rounded.CallMade, tr("Wychodzące"), filter == RecentFilter.OUTGOING) { filter = RecentFilter.OUTGOING }
-                TabChip(Icons.Rounded.Block, tr("Zablokowane"), filter == RecentFilter.BLOCKED) { filter = RecentFilter.BLOCKED }
+                TabChip(Icons.Rounded.History, tr("Wszystkie"), filter == RecentFilter.ALL, compact = true) { filter = RecentFilter.ALL }
+                TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED, compact = true) { filter = RecentFilter.MISSED }
+                TabChip(Icons.AutoMirrored.Rounded.CallReceived, tr("Przychodzące"), filter == RecentFilter.INCOMING, compact = true) { filter = RecentFilter.INCOMING }
+                TabChip(Icons.AutoMirrored.Rounded.CallMade, tr("Wychodzące"), filter == RecentFilter.OUTGOING, compact = true) { filter = RecentFilter.OUTGOING }
+                TabChip(Icons.Rounded.Block, tr("Zablokowane"), filter == RecentFilter.BLOCKED, compact = true) { filter = RecentFilter.BLOCKED }
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {

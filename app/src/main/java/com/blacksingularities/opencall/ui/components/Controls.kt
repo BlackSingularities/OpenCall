@@ -1,5 +1,8 @@
 package com.blacksingularities.opencall.ui.components
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -438,19 +441,22 @@ fun DarkField(
 
 /** Zakładka-chip. */
 @Composable
-fun TabChip(icon: ImageVector?, label: String, selected: Boolean, modifier: Modifier = Modifier, count: Int? = null, onClick: () -> Unit) {
+fun TabChip(icon: ImageVector?, label: String, selected: Boolean, modifier: Modifier = Modifier, count: Int? = null, compact: Boolean = false, onClick: () -> Unit) {
+    // Kompaktowy chip pokazuje samą ikonę; nazwa wysuwa się tylko przy wybranym.
+    val showLabel = !compact || selected || icon == null
     Row(
         modifier
             .reactive(label, onClick = onClick)
             .glass(BlockShape, active = selected)
-            .padding(horizontal = 12.dp, vertical = 7.dp),
+            .animateContentSize(spring(stiffness = Spring.StiffnessMediumLow))
+            .padding(horizontal = if (showLabel) 12.dp else 10.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (icon != null) {
-            Icon(icon, null, tint = if (selected) Palette.Ink else Color.White, modifier = Modifier.size(16.dp))
-            Spacer(Modifier.width(5.dp))
+            Icon(icon, null, tint = if (selected) Palette.Ink else Color.White, modifier = Modifier.size(if (compact) 18.dp else 16.dp))
+            if (showLabel) Spacer(Modifier.width(6.dp))
         }
-        Text(label, color = if (selected) Palette.Ink else Color.White, fontSize = 12.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium)
+        if (showLabel) Text(label, color = if (selected) Palette.Ink else Color.White, fontSize = 12.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium, maxLines = 1)
         if (count != null && count > 0) {
             Spacer(Modifier.width(5.dp))
             Text(

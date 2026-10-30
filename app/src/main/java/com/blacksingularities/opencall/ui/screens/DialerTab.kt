@@ -36,7 +36,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -164,12 +169,20 @@ fun DialerPanel(vm: AppViewModel, onCollapse: () -> Unit) {
         vm.dialed = vm.dialed + k
     }
 
+    // Czarne tło jak dolny pasek – klawiatura przechodzi w niego bez szwu.
+    // Przeciągnięcie w dół zwija klawiaturę.
+    var drag by remember { mutableFloatStateOf(0f) }
     Column(
         Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .background(Palette.PanelHigh)
-            .padding(top = 8.dp, bottom = 10.dp),
+            .pointerInput(Unit) {
+                detectVerticalDragGestures(
+                    onDragStart = { drag = 0f },
+                    onDragEnd = { if (drag > 60.dp.toPx()) onCollapse() },
+                ) { _, dy -> drag += dy }
+            }
+            .background(Palette.Ink)
+            .padding(top = 8.dp, bottom = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Uchwyt – dotknięcie zwija klawiaturę.
