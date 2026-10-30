@@ -1,5 +1,10 @@
 # Zmiany
 
+## 0.3.2
+
+- Czerwona plakietka aktualizacji na przycisku ustawień nie jest już obcinana.
+- Klawiatura w widoku „Telefon” chowa się i wysuwa płynnie, a historia połączeń rośnie razem z nią – bez chwilowego pustego miejsca.
+
 ## 0.3.1
 
 - **Kadrowanie zdjęcia kontaktu naprawione:** wnętrze koła pokazuje teraz zdjęcie (wcześniej było czarne), przyciemniony jest tylko obszar poza kadrem.
