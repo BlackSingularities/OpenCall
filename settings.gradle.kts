@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "OpenDial"
 include(":app")
+include(":wear")

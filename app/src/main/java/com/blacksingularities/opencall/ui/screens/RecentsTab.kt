@@ -2,6 +2,11 @@ package com.blacksingularities.opencall.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -126,11 +131,11 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
         }
         if (!typing) Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
             ChipRow {
-                TabChip(null, tr("Wszystkie"), filter == RecentFilter.ALL) { filter = RecentFilter.ALL }
-                TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED) { filter = RecentFilter.MISSED }
-                TabChip(Icons.AutoMirrored.Rounded.CallReceived, tr("Przychodzące"), filter == RecentFilter.INCOMING) { filter = RecentFilter.INCOMING }
-                TabChip(Icons.AutoMirrored.Rounded.CallMade, tr("Wychodzące"), filter == RecentFilter.OUTGOING) { filter = RecentFilter.OUTGOING }
-                TabChip(Icons.Rounded.Block, tr("Zablokowane"), filter == RecentFilter.BLOCKED) { filter = RecentFilter.BLOCKED }
+                TabChip(Icons.Rounded.History, tr("Wszystkie"), filter == RecentFilter.ALL, compact = true) { filter = RecentFilter.ALL }
+                TabChip(Icons.AutoMirrored.Rounded.CallMissed, tr("Nieodebrane"), filter == RecentFilter.MISSED, compact = true) { filter = RecentFilter.MISSED }
+                TabChip(Icons.AutoMirrored.Rounded.CallReceived, tr("Przychodzące"), filter == RecentFilter.INCOMING, compact = true) { filter = RecentFilter.INCOMING }
+                TabChip(Icons.AutoMirrored.Rounded.CallMade, tr("Wychodzące"), filter == RecentFilter.OUTGOING, compact = true) { filter = RecentFilter.OUTGOING }
+                TabChip(Icons.Rounded.Block, tr("Zablokowane"), filter == RecentFilter.BLOCKED, compact = true) { filter = RecentFilter.BLOCKED }
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {
@@ -184,8 +189,12 @@ fun RecentsTab(vm: AppViewModel, onRequestRole: () -> Unit, onRequestPermissions
         }
         AnimatedVisibility(
             visible = vm.keypadOpen,
-            enter = slideInVertically { it } + fadeIn(),
-            exit = slideOutVertically { it } + fadeOut(),
+            // Wysokość zmienia się płynnie razem z wysuwaniem, więc lista nad klawiaturą rośnie
+            // na bieżąco i nie zostaje pusta dziura, która dopiero potem się wypełnia.
+            enter = expandVertically(spring(stiffness = Spring.StiffnessMediumLow), expandFrom = Alignment.Top) +
+                slideInVertically(spring(stiffness = Spring.StiffnessMediumLow)) { it / 2 } + fadeIn(tween(180)),
+            exit = shrinkVertically(spring(stiffness = Spring.StiffnessMediumLow), shrinkTowards = Alignment.Top) +
+                slideOutVertically(spring(stiffness = Spring.StiffnessMediumLow)) { it / 2 } + fadeOut(tween(150)),
         ) { DialerPanel(vm, onCollapse = { vm.keypadOpen = false }) }
     }
 

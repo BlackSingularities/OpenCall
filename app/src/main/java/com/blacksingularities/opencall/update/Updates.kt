@@ -36,7 +36,10 @@ fun parseRelease(json: String, assetSuffix: String = ".apk"): ReleaseInfo {
     if (assets != null) {
         for (i in 0 until assets.length()) {
             val a = assets.optJSONObject(i) ?: continue
-            if (a.optString("name").endsWith(assetSuffix)) {
+            val name = a.optString("name")
+            // Wydanie zawiera też plik aplikacji na zegarek – telefon pobiera tylko swój.
+            if (name.contains("watch", ignoreCase = true)) continue
+            if (name.endsWith(assetSuffix)) {
                 url = a.optString("browser_download_url")
                 size = a.optLong("size")
                 break

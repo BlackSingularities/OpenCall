@@ -265,19 +265,21 @@ fun GlassIconButton(
     onClick: () -> Unit,
 ) {
     val iconTint by animateColorAsState(tint ?: if (active) Palette.Ink else Color.White, tween(200), label = "iconTint")
-    Box(
-        modifier
-            .reactive(label, enabled, onLongPress, onClick = onClick)
-            .size(size)
-            .then(if (background != null) Modifier.clip(BlockShape).background(background) else Modifier.glass(BlockShape, level, active)),
-        contentAlignment = Alignment.Center,
-    ) {
-        AnimatedContent(
-            targetState = icon,
-            transitionSpec = { (fadeIn(tween(160)) + scaleIn(initialScale = 0.6f)) togetherWith (fadeOut(tween(120)) + scaleOut(targetScale = 0.6f)) },
-            label = "icon",
-        ) { ic ->
-            Icon(ic, null, tint = iconTint, modifier = Modifier.size(size * 0.5f))
+    // Plakietka leży poza przyciętym tłem przycisku, więc nie jest obcinana.
+    Box(modifier.reactive(label, enabled, onLongPress, onClick = onClick)) {
+        Box(
+            Modifier
+                .size(size)
+                .then(if (background != null) Modifier.clip(BlockShape).background(background) else Modifier.glass(BlockShape, level, active)),
+            contentAlignment = Alignment.Center,
+        ) {
+            AnimatedContent(
+                targetState = icon,
+                transitionSpec = { (fadeIn(tween(160)) + scaleIn(initialScale = 0.6f)) togetherWith (fadeOut(tween(120)) + scaleOut(targetScale = 0.6f)) },
+                label = "icon",
+            ) { ic ->
+                Icon(ic, null, tint = iconTint, modifier = Modifier.size(size * 0.5f))
+            }
         }
         if (badge != null) {
             Text(
@@ -287,9 +289,9 @@ fun GlassIconButton(
                 fontWeight = FontWeight.Black,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .offset(x = 2.dp, y = (-2).dp)
+                    .offset(x = 3.dp, y = (-3).dp)
                     .background(Palette.Record, RoundedCornerShape(50))
-                    .padding(horizontal = 5.dp),
+                    .padding(horizontal = 5.dp, vertical = 1.dp),
             )
         }
     }

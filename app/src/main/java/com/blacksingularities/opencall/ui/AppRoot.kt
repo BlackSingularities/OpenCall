@@ -2,6 +2,9 @@ package com.blacksingularities.opencall.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -163,8 +166,9 @@ private fun BottomBar(vm: AppViewModel) {
             .fillMaxWidth()
             .background(Palette.Ink)
             .windowInsetsPadding(WindowInsets.navigationBars)
-            .padding(horizontal = 8.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (vm.settings.showFavoritesTab) TabItem(Icons.Rounded.Star, tr("Ulubione"), vm.tab == 0) { vm.selectTab(0) }
         // „Telefon” = historia i klawiatura w jednym widoku; ponowne dotknięcie rozwija/zwija klawiaturę.
@@ -175,40 +179,37 @@ private fun BottomBar(vm: AppViewModel) {
     }
 }
 
+/** Zakładka dolnego paska: sama ikona, a wybrana – pigułka z ikoną i nazwą. */
 @Composable
 private fun TabItem(icon: ImageVector, label: String, selected: Boolean, badge: Int = 0, onClick: () -> Unit) {
-    Column(
-        Modifier
-            .reactive(label, onClick = onClick)
-            .width(80.dp)
-            .padding(vertical = 2.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box {
-            Box(
-                Modifier
-                    .clip(RoundedCornerShape(50))
-                    .background(if (selected) Color.White else Color.Transparent)
-                    .padding(horizontal = 18.dp, vertical = 5.dp),
-            ) {
-                Icon(icon, null, tint = if (selected) Palette.Ink else Palette.TextDim, modifier = Modifier.size(22.dp))
-            }
-            if (badge > 0) {
-                Text(
-                    if (badge > 99) "99+" else badge.toString(),
-                    color = Color.White,
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.Black,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .clip(RoundedCornerShape(50))
-                        .background(Palette.Record)
-                        .padding(horizontal = 5.dp, vertical = 1.dp),
-                )
+    Box(Modifier.reactive(label, onClick = onClick).padding(vertical = 4.dp), contentAlignment = Alignment.Center) {
+        Row(
+            Modifier
+                .clip(RoundedCornerShape(50))
+                .background(if (selected) Color.White else Color.Transparent)
+                .animateContentSize(spring(stiffness = Spring.StiffnessMediumLow))
+                .padding(horizontal = if (selected) 18.dp else 20.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(icon, null, tint = if (selected) Palette.Ink else Palette.TextDim, modifier = Modifier.size(24.dp))
+            if (selected) {
+                Spacer(Modifier.width(8.dp))
+                Text(label, fontSize = 14.sp, color = Palette.Ink, fontWeight = FontWeight.Bold, maxLines = 1)
             }
         }
-        Spacer(Modifier.height(3.dp))
-        Text(label, fontSize = 11.sp, color = if (selected) Color.White else Palette.TextDim, fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium)
+        if (badge > 0) {
+            Text(
+                if (badge > 99) "99+" else badge.toString(),
+                color = Color.White,
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Black,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .clip(RoundedCornerShape(50))
+                    .background(Palette.Record)
+                    .padding(horizontal = 5.dp, vertical = 1.dp),
+            )
+        }
     }
 }
 
